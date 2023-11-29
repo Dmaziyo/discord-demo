@@ -1,0 +1,92 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Profile {
+  id     Int    @id @default(autoincrement())
+  userId String @unique @default(uuid())
+
+  name  String
+  image String @db.Text
+  email String @db.Text
+
+  servers Server[]
+  members Member[]
+  channels Channel[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Server {
+  id         Int    @id @default(autoincrement())
+  name       String
+  image      String @db.Text
+  inviteCode String @unique
+
+  members  Member[]
+  channels Channel[]
+
+  profileId Int
+  Profile   Profile @relation(fields: [profileId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([profileId])
+}
+
+enum ChannelType {
+  TEXT
+  AUDIO
+  VIDEO
+}
+
+model Channel {
+  id   Int         @id @default(autoincrement())
+  name String
+  type ChannelType @default(TEXT)
+
+  serverId Int
+  Server   Server @relation(fields: [serverId], references: [id])
+
+  profileId Int
+  Profile   Profile? @relation(fields: [profileId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([profileId])
+  @@index([serverId])
+}
+
+enum MemberRole {
+  ADMIN
+  MODERATOR
+  GUEST
+}
+
+model Member {
+  id   Int        @id @default(autoincrement())
+  type MemberRole @default(GUEST)
+
+  profileId Int
+  Profile   Profile @relation(fields: [profileId], references: [id])
+
+  serverId Int
+  Server   Server @relation(fields: [serverId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([profileId])
+  @@index([serverId])
+}
