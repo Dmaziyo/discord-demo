@@ -11,15 +11,15 @@ datasource db {
 }
 
 model Profile {
-  id     Int    @id @default(autoincrement())
+  id     String @id
   userId String @unique @default(uuid())
 
   name  String
   image String @db.Text
   email String @db.Text
 
-  servers Server[]
-  members Member[]
+  servers  Server[]
+  members  Member[]
   channels Channel[]
 
   createdAt DateTime @default(now())
@@ -35,7 +35,7 @@ model Server {
   members  Member[]
   channels Channel[]
 
-  profileId Int
+  profileId String
   Profile   Profile @relation(fields: [profileId], references: [id])
 
   createdAt DateTime @default(now())
@@ -58,7 +58,7 @@ model Channel {
   serverId Int
   Server   Server @relation(fields: [serverId], references: [id])
 
-  profileId Int
+  profileId String
   Profile   Profile? @relation(fields: [profileId], references: [id])
 
   createdAt DateTime @default(now())
@@ -78,7 +78,7 @@ model Member {
   id   Int        @id @default(autoincrement())
   type MemberRole @default(GUEST)
 
-  profileId Int
+  profileId String
   Profile   Profile @relation(fields: [profileId], references: [id])
 
   serverId Int

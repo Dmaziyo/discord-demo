@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE `Profile` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `id` VARCHAR(191) NOT NULL,
     `userId` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NOT NULL,
     `image` TEXT NOT NULL,
@@ -18,7 +18,7 @@ CREATE TABLE `Server` (
     `name` VARCHAR(191) NOT NULL,
     `image` TEXT NOT NULL,
     `inviteCode` VARCHAR(191) NOT NULL,
-    `profileId` INTEGER NOT NULL,
+    `profileId` VARCHAR(191) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
@@ -33,7 +33,7 @@ CREATE TABLE `Channel` (
     `name` VARCHAR(191) NOT NULL,
     `type` ENUM('TEXT', 'AUDIO', 'VIDEO') NOT NULL DEFAULT 'TEXT',
     `serverId` INTEGER NOT NULL,
-    `profileId` INTEGER NOT NULL,
+    `profileId` VARCHAR(191) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
@@ -46,7 +46,7 @@ CREATE TABLE `Channel` (
 CREATE TABLE `Member` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `type` ENUM('ADMIN', 'MODERATOR', 'GUEST') NOT NULL DEFAULT 'GUEST',
-    `profileId` INTEGER NOT NULL,
+    `profileId` VARCHAR(191) NOT NULL,
     `serverId` INTEGER NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
