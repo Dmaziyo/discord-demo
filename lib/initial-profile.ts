@@ -1,8 +1,10 @@
 import db from '@/lib/db'
-import { currentUser, redirectToSignIn } from '@clerk/nextjs'
+import { currentUser } from '@clerk/nextjs'
 export async function initialProfile() {
-  const user = await currentUser()
+  const user = await currentUser();
+
   if (!user) return null
+
   let profile = await db.profile.findUnique({
     where: {
       id: user.id // replace with the actual profile ID you're looking for
@@ -18,6 +20,5 @@ export async function initialProfile() {
       }
     })
   }
-  console.log(profile)
   return profile
 }
