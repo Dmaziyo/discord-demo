@@ -1,7 +1,8 @@
 import db from '@/lib/db'
 import { currentUser } from '@clerk/nextjs'
-export async function initialProfile() {
-  const user = await currentUser();
+
+export async function currentProfile() {
+  const user = await currentUser()
 
   if (!user) return null
 
@@ -10,7 +11,13 @@ export async function initialProfile() {
       id: user.id // replace with the actual profile ID you're looking for
     }
   })
-  if (!profile) {
+  return profile
+}
+
+export async function initialProfile() {
+  const user = await currentUser()
+  let profile = await currentProfile()
+  if (user && !profile) {
     profile = await db.profile.create({
       data: {
         id: user.id,
