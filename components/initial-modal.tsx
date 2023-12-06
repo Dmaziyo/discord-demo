@@ -9,12 +9,13 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import FileUpload from '@/components/file-upload'
+import axios from 'axios'
 
 const formSchema = z.object({
   name: z.string().min(1, {
     message: 'server name can not be empty '
   }),
-  imageUrl: z.string().min(1, {
+  image: z.string().min(1, {
     message: 'image can not be empty'
   })
 })
@@ -26,15 +27,26 @@ const InitialModal = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: '',
-      imageUrl: ''
+      image: ''
     }
   })
+
   const [isMount, setIsMount] = useState(false)
   useEffect(() => {
     setIsMount(true)
   }, [])
-  const onSubmit = (values: FormType) => {
-    console.log(values)
+
+  const onSubmit = async (values: FormType) => {
+    try {
+      const res = await axios.post('/api/server', {
+        image: values.image,
+        name: values.name
+      })
+      window.location.reload()
+      console.log(res, 'SERVER_CREATE_SUCCESSFUL')
+    } catch (error) {
+      console.log('[SERVER_CREATE_ERROR]', error)
+    }
   }
 
   if (!isMount) {
@@ -54,7 +66,7 @@ const InitialModal = () => {
             <div className="flex justify-center">
               <FormField
                 control={form.control}
-                name="imageUrl"
+                name="image"
                 render={({ field }) => {
                   return (
                     <FormItem>
