@@ -13,7 +13,7 @@ const ActionToolTip = ({ label, children, side, align }: ActionToolTipProps) => 
     <TooltipProvider delayDuration={50}>
       <Tooltip>
         <TooltipTrigger asChild>{children}</TooltipTrigger>
-        <TooltipContent side={side} align={align}>
+        <TooltipContent className='font-bold' side={side} align={align}>
           {label}
         </TooltipContent>
       </Tooltip>

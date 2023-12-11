@@ -1,6 +1,6 @@
-import Image from 'next/image'
 import { X } from 'lucide-react'
 import { UploadDropzone } from '@/lib/upload-thing'
+import Image from '@/components/ui/image'
 interface FileUploadProps {
   onChange: (value: any) => void
   value: string
@@ -18,7 +18,7 @@ const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
             onChange('')
           }}
         >
-          <X className='h-4 w-4'></X>
+          <X className="h-4 w-4"></X>
         </button>
       </div>
     )
