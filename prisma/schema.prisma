@@ -27,7 +27,7 @@ model Profile {
 }
 
 model Server {
-  id         Int    @id @default(autoincrement())
+  id         String @id @default(uuid())
   name       String
   image      String @db.Text
   inviteCode String @unique
@@ -51,11 +51,11 @@ enum ChannelType {
 }
 
 model Channel {
-  id   Int         @id @default(autoincrement())
+  id   String      @id @default(uuid())
   name String
   type ChannelType @default(TEXT)
 
-  serverId Int
+  serverId String
   Server   Server @relation(fields: [serverId], references: [id])
 
   profileId String
@@ -75,13 +75,13 @@ enum MemberRole {
 }
 
 model Member {
-  id   Int        @id @default(autoincrement())
+  id   String     @id @default(uuid())
   type MemberRole @default(GUEST)
 
   profileId String
   Profile   Profile @relation(fields: [profileId], references: [id])
 
-  serverId Int
+  serverId String
   Server   Server @relation(fields: [serverId], references: [id])
 
   createdAt DateTime @default(now())
