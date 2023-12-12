@@ -4,6 +4,8 @@ import db from '@/lib/db'
 import { currentProfile } from '@/lib/db/profile'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import NavigationItem from '@/components/navigation/navigation-item'
+import { ModeToggle } from '@/components/mode-toggle'
+import { UserButton } from '@clerk/nextjs'
 
 const NavigationSideBar = async () => {
   const profile = await currentProfile()
@@ -17,10 +19,10 @@ const NavigationSideBar = async () => {
     }
   })
   return (
-    <div>
+    <div className="w-full h-full dark:bg-[#1E1F22] flex flex-col items-center">
       <NavigationAction></NavigationAction>
       <Separator className="h-[2px] w-10 mx-auto my-4 bg-zinc-300" />
-      <ScrollArea>
+      <ScrollArea className="flex-1">
         {servers.map(server => {
           return (
             <div className="mb-4" key={server.id}>
@@ -29,6 +31,10 @@ const NavigationSideBar = async () => {
           )
         })}
       </ScrollArea>
+      <div className="flex flex-col items-center  gap-5 pb-6">
+        <ModeToggle />
+        <UserButton></UserButton>
+      </div>
     </div>
   )
 }
