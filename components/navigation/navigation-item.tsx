@@ -1,10 +1,8 @@
 'use client'
 import ActionToolTip from '@/components/action-tooltip'
 import { cn } from '@/lib/utils'
-import { Server } from '@prisma/client'
+import Image from 'next/image'
 import { useParams } from 'next/navigation'
-import Image from '@/components/ui/image'
-
 interface NavigationItemProps {
   name: string
   imageUrl: string
@@ -30,7 +28,7 @@ const NavigationItem = ({ name, imageUrl, serverId }: NavigationItemProps) => {
           )}
         >
           <div className="h-[48px] w-[48px] overflow-hidden relative">
-            <Image width={48} height={48} src={imageUrl} alt={name}></Image>
+            <Image fill src={imageUrl} alt={name}></Image>
           </div>
         </div>
       </button>

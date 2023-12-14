@@ -1,6 +1,6 @@
 import { X } from 'lucide-react'
 import { UploadDropzone } from '@/lib/upload-thing'
-import Image from '@/components/ui/image'
+import Image from 'next/image'
 interface FileUploadProps {
   onChange: (value: any) => void
   value: string
@@ -11,7 +11,9 @@ const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
   if (value && fileType !== 'pdf') {
     return (
       <div className="relative">
-        <Image src={value} className="rounded-full" width={80} height={80} alt="Pic" />
+        <div className="h-[80px] w-[80px] rounded-full overflow-hidden relative">
+          <Image src={value} fill alt="Pic" />
+        </div>
         <button
           className="absolute top-0 right-0 text-white bg-rose-500 rounded-full p-1"
           onClick={() => {
@@ -25,7 +27,7 @@ const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
   }
   return (
     <UploadDropzone
-      onClientUploadComplete={res => {
+      onClientUploadComplete={(res) => {
         onChange(res[0].url)
       }}
       endpoint={endpoint}
