@@ -3,7 +3,8 @@ import { ClerkProvider } from '@clerk/nextjs'
 import { Inter } from 'next/font/google'
 import './globals.css'
 
-import { ThemeProvider } from '@/components/theme-provider'
+import { ThemeProvider } from '@/components/providers/theme-provider'
+import ModalProvider from '@/components/providers/modal-provider'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -17,6 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <html lang="en">
         <body className={inter.className}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+            <ModalProvider />
             {children}
           </ThemeProvider>
         </body>
