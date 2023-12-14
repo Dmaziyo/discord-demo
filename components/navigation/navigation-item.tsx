@@ -2,7 +2,7 @@
 import ActionToolTip from '@/components/action-tooltip'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 interface NavigationItemProps {
   name: string
   imageUrl: string
@@ -11,10 +11,16 @@ interface NavigationItemProps {
 
 const NavigationItem = ({ name, imageUrl, serverId }: NavigationItemProps) => {
   const params = useParams()
+  const router = useRouter()
 
   return (
     <ActionToolTip label={name} side="right" align="center">
-      <button className="group relative flex items-center justify-center ">
+      <button
+        onClick={() => {
+          router.push(`/servers/${serverId}`)
+        }}
+        className="group relative flex items-center justify-center "
+      >
         <div
           className={cn(
             'absolute left-0 h-[36px] w-[4px] bg-primary rounded-lg',
