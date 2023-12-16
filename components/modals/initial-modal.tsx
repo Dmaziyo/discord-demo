@@ -54,7 +54,7 @@ const InitialModal = () => {
   }
   return (
     <Dialog open>
-      <DialogContent className="p-0">
+      <DialogContent className="bg-white p-0">
         <DialogHeader className="p-8">
           <DialogTitle className="text-center text-3xl font-bold">Customize your server</DialogTitle>
           <DialogDescription className="text-center text-zinc-500">
@@ -96,7 +96,7 @@ const InitialModal = () => {
               }}
             />
             <DialogFooter className="bg-gray-100 p-5">
-              <Button className="bg-indigo-500">Create</Button>
+              <Button className="text-white bg-indigo-500 hover:bg-indigo-500/90">Create</Button>
             </DialogFooter>
           </form>
         </Form>

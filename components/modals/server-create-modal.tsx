@@ -51,11 +51,16 @@ const ServerCreateModal = () => {
 
   const isOpened = isOpen && type === 'createServer'
 
+  const handleClose = () => {
+    form.reset()
+    onClose()
+  }
+
   return (
-    <Dialog open={isOpened} onOpenChange={onClose}>
-      <DialogContent className="p-0">
+    <Dialog open={isOpened} onOpenChange={handleClose}>
+      <DialogContent className="bg-white p-0">
         <DialogHeader className="p-8">
-          <DialogTitle className="text-center text-3xl font-bold">Customize your server</DialogTitle>
+          <DialogTitle className="text-black text-center text-3xl font-bold">Customize your server</DialogTitle>
           <DialogDescription className="text-center text-zinc-500">
             Give me your server a personality with a name and an image.You can always change it later
           </DialogDescription>
@@ -95,7 +100,7 @@ const ServerCreateModal = () => {
               }}
             />
             <DialogFooter className="bg-gray-100 p-5">
-              <Button className="bg-indigo-500">Create</Button>
+              <Button className="text-white bg-indigo-500 hover:bg-indigo-500/90">Create</Button>
             </DialogFooter>
           </form>
         </Form>
