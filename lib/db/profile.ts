@@ -1,10 +1,11 @@
 import db from '@/lib/db'
 import { currentUser } from '@clerk/nextjs'
+import { redirect } from 'next/navigation'
 
 export async function currentProfile() {
   const user = await currentUser()
 
-  if (!user) return null
+  if (!user) return redirect('/')
 
   let profile = await db.profile.findUnique({
     where: {

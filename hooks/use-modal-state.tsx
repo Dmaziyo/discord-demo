@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-type ModalType = 'createServer'
+type ModalType = 'createServer' | 'invite'
 
 interface ModalState {
   type: ModalType | null
