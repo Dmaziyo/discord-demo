@@ -1,16 +1,41 @@
 'use client'
 import { Button } from '@/components/ui/button'
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 
 import { useModal } from '@/hooks/use-modal-state'
-import { Copy, RefreshCcw } from 'lucide-react'
+import { useOrigin } from '@/hooks/use-origin'
+import db from '@/lib/db'
+import axios from 'axios'
+import { Check, Copy, RefreshCcw } from 'lucide-react'
+import { useState } from 'react'
 
 const InviteModal = () => {
-  const { type, isOpen, onClose, onOpen } = useModal()
+  const { type, isOpen, onClose, onOpen, data } = useModal()
+  const [copied, setCopied] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const origin = useOrigin()
 
+  const { server } = data
   const isOpened = isOpen && type === 'invite'
+  const inviteUrl = `${origin}/invite/${server?.inviteCode}`
+
+  const onCopy = () => {
+    navigator.clipboard.writeText(inviteUrl)
+    setCopied(true)
+    setTimeout(() => {
+      setCopied(false)
+    }, 1000)
+  }
+
+  const onRefresh = async () => {
+    setLoading(true)
+    const response = await axios.patch(`/api/servers/invite/${server?.id}`)
+    
+    // TODO 更新inviteCode
+
+    setLoading(false)
+  }
 
   return (
     <Dialog open={isOpened} onOpenChange={onClose}>
@@ -20,13 +45,13 @@ const InviteModal = () => {
           <div className="flex pt-9 flex-col">
             <div className="uppercase text-sm font-bold text-zinc-500">server invite link</div>
             <div className="flex mt-3 items-center gap-2">
-              <Input className="bg-zinc-300"></Input>
-              <Button className="dark:bg-transparent bg-neutral-500" size="icon">
-                <Copy></Copy>
+              <Input readOnly disabled={loading} value={inviteUrl} className="bg-zinc-300"></Input>
+              <Button disabled={loading} onClick={onCopy} className="dark:bg-transparent bg-neutral-500" size="icon">
+                {copied ? <Check></Check> : <Copy></Copy>}
               </Button>
             </div>
             <div>
-              <Button className="text-xs text-zinc-400" variant="link">
+              <Button disabled={loading} onClick={onRefresh} className="text-xs text-zinc-400" variant="link">
                 Generate a new link <RefreshCcw className="ml-2 w-4 h-4" />
               </Button>
             </div>
