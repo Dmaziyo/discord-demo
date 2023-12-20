@@ -38,7 +38,7 @@ const InitialModal = () => {
 
   const onSubmit = async (values: FormType) => {
     try {
-      const res = await axios.post('/api/server', {
+      const res = await axios.post('/api/servers', {
         image: values.image,
         name: values.name
       })
