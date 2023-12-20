@@ -13,7 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
-import { ChevronDown, Plus, Settings, UserPlus, Users } from 'lucide-react'
+import { ChevronDown, LogOut, Plus, Settings, Trash, UserPlus, Users } from 'lucide-react'
 
 const ServerHeader = ({ server, role }: ServerHeaderProps) => {
   const isAdmin = role === 'ADMIN'
@@ -48,6 +48,16 @@ const ServerHeader = ({ server, role }: ServerHeaderProps) => {
           </DropdownMenuItem>
         )}
         <DropdownMenuSeparator />
+
+        {!isAdmin ? (
+          <DropdownMenuItem className="text-rose-500 text-sm  flex items-center cursor-pointer">
+            Delete Server <Trash className="h-4 w-4 ml-auto"></Trash>
+          </DropdownMenuItem>
+        ) : (
+          <DropdownMenuItem className="text-rose-500 text-sm  flex items-center cursor-pointer">
+            Leave the server <LogOut className="h-4 w-4 ml-auto"></LogOut>
+          </DropdownMenuItem>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   )
