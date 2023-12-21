@@ -34,7 +34,7 @@ const NavigationItem = ({ name, imageUrl, serverId }: NavigationItemProps) => {
           )}
         >
           <div className="h-[48px] w-[48px] overflow-hidden relative">
-            <Image fill src={imageUrl} alt={name}></Image>
+            <Image sizes='fill' fill src={imageUrl} alt={name}></Image>
           </div>
         </div>
       </button>
