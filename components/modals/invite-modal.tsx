@@ -29,12 +29,17 @@ const InviteModal = () => {
   }
 
   const onRefresh = async () => {
-    setLoading(true)
-    const response = await axios.patch(`/api/servers/invite/${server?.id}`)
-    
-    // TODO 更新inviteCode
+    try {
+      setLoading(true)
+      const response = await axios.patch(`/api/servers/invite/${server?.id}`)
 
-    setLoading(false)
+      // 再次触发render
+      onOpen('invite', { server: response.data })
+    } catch (error: any) {
+      console.error('[REFRESH_INVITE_CODE]', error.response)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (

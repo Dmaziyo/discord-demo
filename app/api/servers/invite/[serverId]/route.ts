@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation'
 import { NextRequest, NextResponse } from 'next/server'
 import { v4 as uuidV4 } from 'uuid'
 
+// 更新服务器邀请码
 export async function PATCH(req: NextRequest, { params }: { params: { serverId: string } }) {
   try {
     const serverId = params.serverId
@@ -27,8 +28,9 @@ export async function PATCH(req: NextRequest, { params }: { params: { serverId: 
         inviteCode: uuidV4()
       }
     })
-    // TODO 根据权限来判断是否能够修改
 
     return NextResponse.json({ ...server }, { status: 200 })
-  } catch (error) {}
+  } catch (error) {
+    return NextResponse.json({ error }, { status: 401 })
+  }
 }
