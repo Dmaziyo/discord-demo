@@ -55,7 +55,7 @@ const ServerHeader = ({ server, role }: ServerHeaderProps) => {
         )}
         <DropdownMenuSeparator />
 
-        {!isAdmin ? (
+        {isAdmin ? (
           <DropdownMenuItem className="text-rose-500 text-sm  flex items-center cursor-pointer">
             Delete Server <Trash className="h-4 w-4 ml-auto"></Trash>
           </DropdownMenuItem>
