@@ -54,7 +54,7 @@ const InitialModal = () => {
   }
   return (
     <Dialog open>
-      <DialogContent className="bg-white p-0">
+      <DialogContent className="bg-white text-black p-0">
         <DialogHeader className="p-8">
           <DialogTitle className="text-center text-3xl font-bold">Customize your server</DialogTitle>
           <DialogDescription className="text-center text-zinc-500">

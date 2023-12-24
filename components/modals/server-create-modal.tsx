@@ -58,7 +58,7 @@ const ServerCreateModal = () => {
 
   return (
     <Dialog open={isOpened} onOpenChange={handleClose}>
-      <DialogContent className="bg-white p-0">
+      <DialogContent className="bg-white text-black p-0">
         <DialogHeader className="p-8">
           <DialogTitle className="text-black text-center text-3xl font-bold">Customize your server</DialogTitle>
           <DialogDescription className="text-center text-zinc-500">

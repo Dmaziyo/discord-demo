@@ -44,7 +44,7 @@ const InviteModal = () => {
 
   return (
     <Dialog open={isOpened} onOpenChange={onClose}>
-      <DialogContent className="bg-white p-0">
+      <DialogContent className="bg-white text-black p-0">
         <DialogHeader className="p-8">
           <DialogTitle className="text-black text-center text-3xl font-bold">Invite Your Friends</DialogTitle>
           <div className="flex pt-9 flex-col">
