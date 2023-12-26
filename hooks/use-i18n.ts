@@ -21,8 +21,7 @@ export function useChangeLanguage() {
     const expires = '; expires=' + date.toUTCString()
     document.cookie = `NEXT_LOCALE=${newLocale};expires=${expires};path=/`
 
-    router.push(currentPathName.replace(`/${currentLocale}`, `/${newLocale}`))
-    router.refresh()
+    window.location.href = currentPathName.replace(`/${currentLocale}`, `/${newLocale}`)
   }
 
   return { currentLocale, handleChange }
