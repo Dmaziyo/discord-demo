@@ -6,6 +6,7 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import NavigationItem from '@/components/navigation/navigation-item'
 import { ModeToggle } from '@/components/mode-toggle'
 import { UserButton } from '@clerk/nextjs'
+import { LocaleToggle } from '@/components/locale-toggle'
 
 const NavigationSideBar = async () => {
   const profile = await currentProfile()
@@ -32,6 +33,7 @@ const NavigationSideBar = async () => {
         })}
       </ScrollArea>
       <div className="flex flex-col items-center  gap-5 pb-6">
+        <LocaleToggle></LocaleToggle>
         <ModeToggle />
         <UserButton></UserButton>
       </div>
