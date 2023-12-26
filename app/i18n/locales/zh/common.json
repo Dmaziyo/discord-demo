@@ -1,4 +1,18 @@
 {
-    "save": "保存",
-    "create": "创建"
+    "Save": "保存",
+    "Create": "创建",
+    "Add a server": "添加服务器",
+    "Invite People": "邀请用户",
+    "Server Settings": "服务器设置",
+    "Manage People": "管理成员",
+    "Create Channel": "创建频道",
+    "Delete Server": "删除服务器",
+    "Leave Server": "删除服务器",
+    "Customize your server": "定制你的服务器",
+    "Give me your server a personality with a name and an image.You can always change it later": "设置你的服务器名称以及头像,之后你可以随时更改",
+    "server name": "服务器名称",
+    "Enter server name": "输入服务器名称",
+    "Invite Your Friends": "邀请你的朋友",
+    "server invite link": "邀请链接",
+    "Generate a new link": "刷新"
 }

@@ -16,9 +16,11 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { ChevronDown, LogOut, Plus, Settings, Trash, UserPlus, Users } from 'lucide-react'
 import { useModal } from '@/hooks/use-modal-state'
+import { useClientTranslation } from '@/hooks/use-i18n'
 
 const ServerHeader = ({ server, role }: ServerHeaderProps) => {
   const { onOpen } = useModal()
+  const { t } = useClientTranslation()
   const isAdmin = role === 'ADMIN'
   const isModerator = role === 'MODERATOR' || role === 'ADMIN'
   return (
@@ -35,33 +37,33 @@ const ServerHeader = ({ server, role }: ServerHeaderProps) => {
             onClick={() => onOpen('invite', { server })}
             className="text-sm py-2 text-indigo-500 flex items-center cursor-pointer"
           >
-            Invite People <UserPlus className="h-4 w-4 ml-auto"></UserPlus>
+            {t('Invite People')} <UserPlus className="h-4 w-4 ml-auto"></UserPlus>
           </DropdownMenuItem>
         )}
         {isAdmin && (
           <DropdownMenuItem onClick={() => onOpen('editServer', { server })} className="text-sm  cursor-pointer">
-            Server Settings <Settings className="h-4 w-4 ml-auto"></Settings>
+            {t('Server Settings')} <Settings className="h-4 w-4 ml-auto"></Settings>
           </DropdownMenuItem>
         )}
         {isModerator && (
           <DropdownMenuItem className="text-sm  flex items-center cursor-pointer">
-            Manage People <Users className="h-4 w-4 ml-auto"></Users>
+            {t('Manage People')} <Users className="h-4 w-4 ml-auto"></Users>
           </DropdownMenuItem>
         )}
         {isModerator && (
           <DropdownMenuItem className="text-sm  flex items-center cursor-pointer">
-            Create Channel <Plus className="h-4 w-4 ml-auto"></Plus>
+            {t('Create Channel')} <Plus className="h-4 w-4 ml-auto"></Plus>
           </DropdownMenuItem>
         )}
         <DropdownMenuSeparator />
 
         {isAdmin ? (
           <DropdownMenuItem className="text-rose-500 text-sm  flex items-center cursor-pointer">
-            Delete Server <Trash className="h-4 w-4 ml-auto"></Trash>
+            {t('Delete Server')} <Trash className="h-4 w-4 ml-auto"></Trash>
           </DropdownMenuItem>
         ) : (
           <DropdownMenuItem className="text-rose-500 text-sm  flex items-center cursor-pointer">
-            Leave the server <LogOut className="h-4 w-4 ml-auto"></LogOut>
+            {t('Leave Server')} <LogOut className="h-4 w-4 ml-auto"></LogOut>
           </DropdownMenuItem>
         )}
       </DropdownMenuContent>

@@ -11,6 +11,7 @@ import FileUpload from '@/components/file-upload'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { useModal } from '@/hooks/use-modal-state'
+import { useClientTranslation } from '@/hooks/use-i18n'
 
 const formSchema = z.object({
   name: z.string().min(1, {
@@ -25,7 +26,8 @@ type FormType = z.infer<typeof formSchema>
 
 const ServerCreateModal = () => {
   const router = useRouter()
-  const { type, isOpen, onClose, onOpen } = useModal()
+  const { type, isOpen, onClose } = useModal()
+  const { t } = useClientTranslation()
 
   const form = useForm<FormType>({
     resolver: zodResolver(formSchema),
@@ -60,9 +62,9 @@ const ServerCreateModal = () => {
     <Dialog open={isOpened} onOpenChange={handleClose}>
       <DialogContent className="bg-white text-black p-0">
         <DialogHeader className="p-8">
-          <DialogTitle className="text-black text-center text-3xl font-bold">Customize your server</DialogTitle>
+          <DialogTitle className="text-black text-center text-3xl font-bold">{t('Customize your server')}</DialogTitle>
           <DialogDescription className="text-center text-zinc-500">
-            Give me your server a personality with a name and an image.You can always change it later
+            {t('Give me your server a personality with a name and an image.You can always change it later')}
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -90,9 +92,9 @@ const ServerCreateModal = () => {
               render={({ field }) => {
                 return (
                   <FormItem className="px-5">
-                    <FormLabel className="uppercase text-zinc-500 text-sm font-bold">Server name</FormLabel>
+                    <FormLabel className="uppercase text-zinc-500 text-sm font-bold">{t('server name')}</FormLabel>
                     <FormControl>
-                      <Input className="bg-zinc-300/50 text-black without-ring" placeholder="Enter server name" {...field} />
+                      <Input className="bg-zinc-300/50 text-black without-ring" placeholder={t('Enter server name')} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -100,7 +102,7 @@ const ServerCreateModal = () => {
               }}
             />
             <DialogFooter className="bg-gray-100 p-5">
-              <Button className="text-white bg-indigo-500 hover:bg-indigo-500/90">Create</Button>
+              <Button className="text-white bg-indigo-500 hover:bg-indigo-500/90">{t('Create')}</Button>
             </DialogFooter>
           </form>
         </Form>
