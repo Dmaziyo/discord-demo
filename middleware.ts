@@ -8,7 +8,7 @@ export default authMiddleware({
   beforeAuth: req => {
     return intlMiddleWare(req)
   },
-  publicRoutes: ['/zh','/:locales/api/uploadthing','/:locales/sign-in']
+  publicRoutes: ['/api/uploadthing']
 })
 
 export function intlMiddleWare(request: NextRequest) {
