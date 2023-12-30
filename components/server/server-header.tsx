@@ -46,7 +46,7 @@ const ServerHeader = ({ server, role }: ServerHeaderProps) => {
           </DropdownMenuItem>
         )}
         {isModerator && (
-          <DropdownMenuItem className="text-sm  flex items-center cursor-pointer">
+          <DropdownMenuItem className="text-sm  flex items-center cursor-pointer" onClick={() => onOpen('members', { server })}>
             {t('Manage People')} <Users className="h-4 w-4 ml-auto"></Users>
           </DropdownMenuItem>
         )}

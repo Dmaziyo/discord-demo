@@ -14,5 +14,11 @@
     "Enter server name": "输入服务器名称",
     "Invite Your Friends": "邀请你的朋友",
     "server invite link": "邀请链接",
-    "Generate a new link": "刷新"
+    "Generate a new link": "刷新",
+    "members": "成员",
+    "Manage Your Members": "管理成员",
+    "kick": "删除",
+    "role": "身份",
+    "guest":"成员",
+    "moderator":"管理员"
 }
