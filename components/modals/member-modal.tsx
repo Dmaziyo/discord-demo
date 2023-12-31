@@ -1,4 +1,7 @@
 'use client'
+
+import qs from 'query-string'
+
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import {
   DropdownMenu,
@@ -17,25 +20,66 @@ import { useClientTranslation } from '@/hooks/use-i18n'
 import { useModal } from '@/hooks/use-modal-state'
 import { ServerWithMemberWithProfilesWithChannel } from '@/type'
 import { useUser } from '@clerk/nextjs'
+import { MemberRole } from '@prisma/client'
 import axios from 'axios'
-import { Check, Crown, LogOut, MoreVertical, Shield, ShieldHalf, ShieldQuestion } from 'lucide-react'
+import { Check, Crown, Loader2, LogOut, MoreVertical, Shield, ShieldCheck, ShieldQuestion } from 'lucide-react'
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 const ROLE_ICON_MAP = {
   GUEST: null,
-  MODERATOR: <ShieldHalf className="w-4 h-4" />,
+  MODERATOR: <ShieldCheck className="w-4 h-4" />,
   ADMIN: <Crown className="w-4 h-4 text-yellow-500" />
 }
 
 const MemberModal = () => {
   const { type, isOpen, onClose, onOpen, data } = useModal()
+  const [loadingId, setLoadingId] = useState('')
+  const router = useRouter()
   const { user } = useUser()
   const { t } = useClientTranslation()
 
   const server = data.server as ServerWithMemberWithProfilesWithChannel
   const isOpened = isOpen && type === 'members'
 
-  // TODO 提供api修改member数据
+  //  修改member数据
+  const onKick = async (memberId: string) => {
+    try {
+      setLoadingId(memberId)
+
+      const url = qs.stringifyUrl({
+        url: `/api/members/${memberId}`,
+        query: {
+          serverId: server.id
+        }
+      })
+      const response = await axios.delete(url)
+      router.refresh()
+      onOpen('members', { server: response.data })
+      setLoadingId('')
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const onRoleChange = async (memberId: string, role: MemberRole) => {
+    try {
+      setLoadingId(memberId)
+
+      const url = qs.stringifyUrl({
+        url: `/api/members/${memberId}`,
+        query: {
+          serverId: server.id
+        }
+      })
+      const response = await axios.patch(url, { role })
+      router.refresh()
+      onOpen('members', { server: response.data })
+      setLoadingId('')
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   return (
     <Dialog open={isOpened} onOpenChange={onClose}>
@@ -43,7 +87,7 @@ const MemberModal = () => {
         <DialogHeader>
           <DialogTitle className="text-black text-center text-3xl font-bold">{t('Manage Your Members')}</DialogTitle>
           <DialogDescription className="flex justify-center gap-x-1">
-            <p>{`${server?.members.length}`}</p>
+            <span>{`${server?.members.length}`}</span>
             {t('members')}
           </DialogDescription>
         </DialogHeader>
@@ -60,7 +104,7 @@ const MemberModal = () => {
                   <span className="text-xs text-zinc-500">{member.Profile.email}</span>
                 </div>
               </div>
-              {member.profileId !== user?.id && member.profileId !== server.profileId && (
+              {member.profileId !== user?.id && member.profileId !== server.profileId && loadingId !== member.id && (
                 <DropdownMenu>
                   <DropdownMenuTrigger className="ml-auto">
                     <MoreVertical className="text-zinc-500 h-4 w-4" />
@@ -73,26 +117,27 @@ const MemberModal = () => {
                       </DropdownMenuSubTrigger>
                       <DropdownMenuPortal>
                         <DropdownMenuSubContent>
-                          <DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => onRoleChange(member.id, 'GUEST')}>
                             <Shield className="w-4 h-4 mr-2" />
                             <span className="capitalize">{t('guest')}</span>
                             {member.type === 'GUEST' && <Check className="h-4 w-4 ml-auto" />}
                           </DropdownMenuItem>
-                          <DropdownMenuItem>
-                            <ShieldHalf className="mr-2 h-4 w-4" />
+                          <DropdownMenuItem onClick={() => onRoleChange(member.id, 'MODERATOR')}>
+                            <ShieldCheck className="mr-2 h-4 w-4" />
                             <span className="capitalize">{t('moderator')}</span>
                             {member.type === 'MODERATOR' && <Check className="h-4 w-4 ml-auto" />}
                           </DropdownMenuItem>
                         </DropdownMenuSubContent>
                       </DropdownMenuPortal>
                     </DropdownMenuSub>
-                    <DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => onKick(member.id)}>
                       <LogOut className="h-4 w-4 mr-2" />
                       <span className="capitalize">{t('kick')}</span>
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               )}
+              {loadingId === member.id && <Loader2 className="h-4 w-4 ml-auto animate-spin" />}
             </div>
           ))}
         </ScrollArea>

@@ -45,7 +45,7 @@ const ServerSideBar = async ({ serverId }: ServerSideBarProps) => {
   const role = members.find(item => item.profileId === profile.id)?.type
 
   return (
-    <div className='flex flex-col w-full h-full'>
+    <div className="flex flex-col w-full h-full">
       <ServerHeader server={server} role={role}></ServerHeader>
     </div>
   )
