@@ -51,7 +51,7 @@ const ServerHeader = ({ server, role }: ServerHeaderProps) => {
           </DropdownMenuItem>
         )}
         {isModerator && (
-          <DropdownMenuItem className="text-sm  flex items-center cursor-pointer">
+          <DropdownMenuItem onClick={() => onOpen('createChannel', { server })} className="text-sm  flex items-center cursor-pointer">
             {t('Create Channel')} <Plus className="h-4 w-4 ml-auto"></Plus>
           </DropdownMenuItem>
         )}
