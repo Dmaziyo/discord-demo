@@ -1,5 +1,6 @@
 import db from '@/lib/db'
 import { currentProfile } from '@/lib/db/profile'
+import { MemberRole } from '@prisma/client'
 import { redirect } from 'next/navigation'
 import { NextRequest, NextResponse } from 'next/server'
 import { v4 as uuidV4 } from 'uuid'
@@ -20,7 +21,9 @@ export async function PATCH(req: NextRequest, { params }: { params: { serverId: 
         members: {
           some: {
             profileId: profile.id,
-            OR: [{ type: 'ADMIN' }, { type: 'MODERATOR' }]
+            role: {
+              in: [MemberRole.ADMIN, MemberRole.MODERATOR]
+            }
           }
         }
       },

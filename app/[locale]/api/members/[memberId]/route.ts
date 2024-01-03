@@ -1,5 +1,6 @@
 import db from '@/lib/db'
 import { currentProfile } from '@/lib/db/profile'
+import { MemberRole } from '@prisma/client'
 import { NextRequest, NextResponse } from 'next/server'
 
 // 根据serverId和memberId以及role更新其role
@@ -34,7 +35,9 @@ export async function PATCH(
         members: {
           some: {
             profileId: profile.id,
-            OR: [{ type: 'ADMIN' }, { type: 'MODERATOR' }]
+            role: {
+              in: [MemberRole.ADMIN, MemberRole.MODERATOR]
+            }
           }
         }
       },
@@ -48,7 +51,7 @@ export async function PATCH(
               }
             },
             data: {
-              type: role
+              role
             }
           }
         }
@@ -98,7 +101,9 @@ export async function DELETE(
         members: {
           some: {
             profileId: profile.id,
-            OR: [{ type: 'ADMIN' }, { type: 'MODERATOR' }]
+            role: {
+              in: [MemberRole.ADMIN, MemberRole.MODERATOR]
+            }
           }
         }
       },

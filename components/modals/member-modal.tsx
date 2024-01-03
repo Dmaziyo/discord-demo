@@ -99,7 +99,7 @@ const MemberModal = () => {
                 <div className="flex flex-col text-sm font-medium">
                   <div className="flex gap-x-1">
                     {member.Profile.name}
-                    {ROLE_ICON_MAP[member.type]}
+                    {ROLE_ICON_MAP[member.role]}
                   </div>
                   <span className="text-xs text-zinc-500">{member.Profile.email}</span>
                 </div>
@@ -120,12 +120,12 @@ const MemberModal = () => {
                           <DropdownMenuItem onClick={() => onRoleChange(member.id, 'GUEST')}>
                             <Shield className="w-4 h-4 mr-2" />
                             <span className="capitalize">{t('guest')}</span>
-                            {member.type === 'GUEST' && <Check className="h-4 w-4 ml-auto" />}
+                            {member.role === 'GUEST' && <Check className="h-4 w-4 ml-auto" />}
                           </DropdownMenuItem>
                           <DropdownMenuItem onClick={() => onRoleChange(member.id, 'MODERATOR')}>
                             <ShieldCheck className="mr-2 h-4 w-4" />
                             <span className="capitalize">{t('moderator')}</span>
-                            {member.type === 'MODERATOR' && <Check className="h-4 w-4 ml-auto" />}
+                            {member.role === 'MODERATOR' && <Check className="h-4 w-4 ml-auto" />}
                           </DropdownMenuItem>
                         </DropdownMenuSubContent>
                       </DropdownMenuPortal>

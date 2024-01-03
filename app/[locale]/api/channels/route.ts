@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
         members: {
           some: {
             profileId: profile.id,
-            type: {
+            role: {
               in: [MemberRole.ADMIN, MemberRole.MODERATOR]
             }
           }

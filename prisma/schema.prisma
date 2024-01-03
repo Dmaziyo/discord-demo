@@ -76,7 +76,7 @@ enum MemberRole {
 
 model Member {
   id   String     @id @default(uuid())
-  type MemberRole @default(GUEST)
+  role MemberRole @default(GUEST)
 
   profileId String
   Profile   Profile @relation(fields: [profileId], references: [id])
