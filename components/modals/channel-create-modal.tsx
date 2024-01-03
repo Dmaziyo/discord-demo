@@ -1,18 +1,20 @@
 'use client'
 import { Button } from '@/components/ui/button'
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
+import qs from 'query-string'
+
 import axios from 'axios'
-import { useRouter } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { useModal } from '@/hooks/use-modal-state'
 import { useClientTranslation } from '@/hooks/use-i18n'
 import { ChannelType } from '@prisma/client'
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
 const formSchema = z.object({
   name: z
@@ -31,8 +33,8 @@ type FormType = z.infer<typeof formSchema>
 const ChannelCreateModal = () => {
   const router = useRouter()
   const { type, isOpen, onClose } = useModal()
+  const params = useParams<{ serverId: string }>()
   const { t } = useClientTranslation()
-
   const form = useForm<FormType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -43,11 +45,16 @@ const ChannelCreateModal = () => {
 
   const onSubmit = async (values: FormType) => {
     try {
-      const res = await axios.post('/api/servers', {
-        image: values.type,
+      const url = qs.stringifyUrl({
+        url: '/api/channels',
+        query: {
+          serverId: params.serverId
+        }
+      })
+      const res = await axios.post(url, {
+        type: values.type,
         name: values.name
       })
-
       form.reset()
       router.refresh()
     } catch (error) {
