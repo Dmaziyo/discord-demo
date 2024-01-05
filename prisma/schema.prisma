@@ -36,7 +36,7 @@ model Server {
   channels Channel[]
 
   profileId String
-  Profile   Profile @relation(fields: [profileId], references: [id])
+  Profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -56,10 +56,10 @@ model Channel {
   type ChannelType @default(TEXT)
 
   serverId String
-  Server   Server @relation(fields: [serverId], references: [id])
+  Server   Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
 
   profileId String
-  Profile   Profile? @relation(fields: [profileId], references: [id])
+  Profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -79,10 +79,10 @@ model Member {
   role MemberRole @default(GUEST)
 
   profileId String
-  Profile   Profile @relation(fields: [profileId], references: [id])
+  Profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
   serverId String
-  Server   Server @relation(fields: [serverId], references: [id])
+  Server   Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

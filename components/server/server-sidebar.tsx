@@ -43,7 +43,7 @@ const ServerSideBar = async ({ serverId }: ServerSideBarProps) => {
   const members = server.members
   const channels = server.channels
   const role = members.find(item => item.profileId === profile.id)?.role
-
+  
   return (
     <div className="flex flex-col w-full h-full">
       <ServerHeader server={server} role={role}></ServerHeader>

@@ -7,7 +7,7 @@
     "Manage People": "管理成员",
     "Create Channel": "创建频道",
     "Delete Server": "删除服务器",
-    "Leave Server": "删除服务器",
+    "Leave Server": "退出服务器",
     "Customize your server": "定制你的服务器",
     "Give me your server a personality with a name and an image.You can always change it later": "设置你的服务器名称以及头像,之后你可以随时更改",
     "server name": "服务器名称",
@@ -28,5 +28,7 @@
     "select channel type": "选择频道类型",
     "audio": "语音",
     "video": "视频",
-    "text": "文本"
+    "text": "文本",
+    "Are you sure to leave": "你确定要离开",
+    "Are you sure to delete": "你确定要删除"
 }

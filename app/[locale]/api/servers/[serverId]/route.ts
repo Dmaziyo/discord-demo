@@ -14,6 +14,9 @@ export async function PATCH(req: NextRequest, { params }: { params: { serverId: 
       redirect('/')
     }
 
+    if (!serverId) {
+      return NextResponse.json({ msg: '[SERVER_ID_MISSING]' }, { status: 400 })
+    }
     const { image, name } = await req.json()
     const server = await db.server.update({
       where: {
@@ -36,5 +39,30 @@ export async function PATCH(req: NextRequest, { params }: { params: { serverId: 
     return NextResponse.json({ ...server }, { status: 200 })
   } catch (error) {
     return NextResponse.json({ error }, { status: 401 })
+  }
+}
+
+// 删除服务器，只有群主才能删
+export async function DELETE(req: NextRequest, { params }: { params: { serverId: string } }) {
+  try {
+    const profile = await currentProfile()
+    const serverId = params.serverId
+    if (!profile) {
+      return NextResponse.json({ msg: '[Unauthorized]' }, { status: 401 })
+    }
+
+    if (!serverId) {
+      return NextResponse.json({ msg: '[SERVER_ID_MISSING]' }, { status: 400 })
+    }
+
+    const server = await db.server.deleteMany({
+      where: {
+        id: params.serverId,
+        profileId: profile.id,
+      },
+    });
+    return NextResponse.json(server, { status: 200 })
+  } catch (error) {
+    return NextResponse.json({ msg: error }, { status: 500, statusText: '[SERVER_DELETE_ERROR]' })
   }
 }
