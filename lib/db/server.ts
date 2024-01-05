@@ -18,7 +18,7 @@ export async function createServer({ name, image }: { name: string; image: strin
       members: {
         create: [
           {
-            type: MemberRole.ADMIN,
+            role: MemberRole.ADMIN,
             profileId: profile.id
           }
         ]
