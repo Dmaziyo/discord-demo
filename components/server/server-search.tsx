@@ -2,6 +2,7 @@
 import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
 import { useClientTranslation } from '@/hooks/use-i18n'
 import { Search } from 'lucide-react'
+import { useParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 interface ServerSearchProps {
@@ -22,16 +23,14 @@ interface ServerSearchProps {
 const ServerSearch = ({ searchData }: ServerSearchProps) => {
   const [open, setOpen] = useState(false)
   const { t } = useClientTranslation()
-  // TODO 理解useState,并且实现成员跳转和频道跳转
+  const router = useRouter()
+  const params = useParams<{ serverId: string }>()
+
   useEffect(() => {
-    console.log('[ 反复执行 ] >')
     const down = (e: KeyboardEvent) => {
       if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault()
-        // open是闭包，所以拿到的一直都是false的那个值
-        console.log('[ open before] >', open)
-        setOpen(!open)
-        console.log('[ open after ] >', open)
+        setOpen(open => !open)
       }
     }
     document.addEventListener('keydown', down)
@@ -39,6 +38,15 @@ const ServerSearch = ({ searchData }: ServerSearchProps) => {
       document.removeEventListener('keydown', down)
     }
   }, [])
+  const onClick = (id: string, type: 'channel' | 'member') => {
+    console.log('[click  ] >')
+    if (type === 'channel') {
+      setOpen(false)
+      router.push(`/servers/${params.serverId}/channels/${id}`)
+    } else if (type === 'member') {
+      router.push(`/servers/${params.serverId}/members/${id}`)
+    }
+  }
   return (
     <>
       <div
@@ -61,7 +69,7 @@ const ServerSearch = ({ searchData }: ServerSearchProps) => {
             .map(group => (
               <CommandGroup key={group.label} heading={group.label}>
                 {group.data?.map(item => (
-                  <CommandItem key={item.id}>
+                  <CommandItem className="cursor-pointer" onSelect={() => onClick(item.id, group.type)} key={item.id}>
                     {item.icon}
                     {item.name}
                   </CommandItem>
