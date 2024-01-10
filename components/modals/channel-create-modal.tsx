@@ -15,6 +15,7 @@ import { useModal } from '@/hooks/use-modal-state'
 import { useClientTranslation } from '@/hooks/use-i18n'
 import { ChannelType } from '@prisma/client'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { useEffect } from 'react'
 
 const formSchema = z.object({
   name: z
@@ -32,7 +33,8 @@ type FormType = z.infer<typeof formSchema>
 
 const ChannelCreateModal = () => {
   const router = useRouter()
-  const { type, isOpen, onClose } = useModal()
+  const { type, isOpen, onClose, data } = useModal()
+  const { channelType } = data
   const params = useParams<{ serverId: string }>()
   const { t } = useClientTranslation()
   const form = useForm<FormType>({
@@ -43,6 +45,12 @@ const ChannelCreateModal = () => {
     }
   })
 
+  useEffect(() => {
+    if (channelType) {
+      form.setValue('type', channelType)
+    }
+  }, [form, channelType])
+
   const onSubmit = async (values: FormType) => {
     try {
       const url = qs.stringifyUrl({
@@ -51,7 +59,7 @@ const ChannelCreateModal = () => {
           serverId: params.serverId
         }
       })
-      const res = await axios.post(url, {
+      await axios.post(url, {
         type: values.type,
         name: values.name
       })

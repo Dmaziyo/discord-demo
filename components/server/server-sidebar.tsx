@@ -3,28 +3,23 @@ import { currentProfile } from '@/lib/db/profile'
 import { redirect } from 'next/navigation'
 import ServerHeader from './server-header'
 import ServerSearch from '@/components/server/server-search'
-import { ChannelType, MemberRole } from '@prisma/client'
-import { Crown, Hash, Mic, ShieldCheck, Video } from 'lucide-react'
+import { ChannelType } from '@prisma/client'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import ServerSection from '@/components/server/server-section'
+import { Separator } from '@/components/ui/separator'
+import initTranslations from '@/app/i18n'
+import ServerChannel from '@/components/server/server-channel'
+import { CHANNEL_ICON_MAP, MEMBER_ICON_MAP } from '@/constants/icon'
 
 interface ServerSideBarProps {
   serverId: string
-}
-
-const CHANNEL_ICON_MAP = {
-  [ChannelType.TEXT]: <Hash className="w-4 h-4 mr-2" />,
-  [ChannelType.AUDIO]: <Mic className="w-4 h-4 mr-2" />,
-  [ChannelType.VIDEO]: <Video className="w-4 h-4 mr-2" />
-}
-
-const MEMBER_ICON_MAP = {
-  [MemberRole.GUEST]: null,
-  [MemberRole.MODERATOR]: <ShieldCheck className="w-4 h-4 mr-2" />,
-  [MemberRole.ADMIN]: <Crown className="w-4 h-4 text-yellow-500 mr-2" />
+  locale: string
 }
 
 // 接收serverId,展示频道和成员，并且能够识别用户身份提供成员和频道管理功能
-const ServerSideBar = async ({ serverId }: ServerSideBarProps) => {
+const ServerSideBar = async ({ serverId, locale }: ServerSideBarProps) => {
   const profile = await currentProfile()
+  const { t } = await initTranslations(locale)
 
   if (!profile) {
     return redirect('/')
@@ -83,6 +78,30 @@ const ServerSideBar = async ({ serverId }: ServerSideBarProps) => {
             }
           ]}
         ></ServerSearch>
+        <Separator className="mb-3"></Separator>
+        <ScrollArea>
+          {...Object.values(ChannelType).map(type => {
+            return (
+              <>
+                <ServerSection
+                  channelType={type}
+                  role={role}
+                  label={`${t(type)} ${t('Channel')}`}
+                  type="channels"
+                  server={server}
+                ></ServerSection>
+                {channels
+                  .filter(channel => channel.type === type)
+                  .map(channel => (
+                    <div className="mb-4" key={channel.id}>
+                      <ServerChannel id={channel.id} icon={CHANNEL_ICON_MAP[channel.type]} name={channel.name} role={role}></ServerChannel>
+                    </div>
+                  ))}
+              </>
+            )
+          })}
+          {<ServerSection server={server} role={role} label={t('members')} type="members"></ServerSection>}
+        </ScrollArea>
       </div>
     </div>
   )

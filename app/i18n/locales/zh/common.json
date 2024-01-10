@@ -7,6 +7,7 @@
     "Manage People": "管理成员",
     "Create Channel": "创建频道",
     "Delete Server": "删除服务器",
+    "Delete": "删除",
     "Leave Server": "退出服务器",
     "Customize your server": "定制你的服务器",
     "Give me your server a personality with a name and an image.You can always change it later": "设置你的服务器名称以及头像,之后你可以随时更改",
@@ -33,5 +34,10 @@
     "Are you sure to delete": "你确定要删除",
     "Search": "搜索",
     "Search members or channels": "查询频道或成员",
-    "No results found": "暂无"
+    "No results found": "暂无",
+    "TEXT": "文字",
+    "AUDIO": "语音",
+    "VIDEO": "视频",
+    "Channel": "频道",
+    "Edit": "编辑"
 }
