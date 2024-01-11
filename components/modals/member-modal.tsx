@@ -25,12 +25,8 @@ import axios from 'axios'
 import { Check, Crown, Loader2, LogOut, MoreVertical, Shield, ShieldCheck, ShieldQuestion } from 'lucide-react'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { ROLE_ICON_MAP } from '@/constants/icon'
 
-const ROLE_ICON_MAP = {
-  GUEST: null,
-  MODERATOR: <ShieldCheck className="w-4 h-4" />,
-  ADMIN: <Crown className="w-4 h-4 text-yellow-500" />
-}
 
 const MemberModal = () => {
   const { type, isOpen, onClose, onOpen, data } = useModal()

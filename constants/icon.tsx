@@ -12,3 +12,9 @@ export const MEMBER_ICON_MAP = {
   [MemberRole.MODERATOR]: <ShieldCheck className="w-4 h-4 mr-2" />,
   [MemberRole.ADMIN]: <Crown className="w-4 h-4 text-yellow-500 mr-2" />
 }
+
+export const ROLE_ICON_MAP = {
+  GUEST: null,
+  MODERATOR: <ShieldCheck className="w-4 h-4" />,
+  ADMIN: <Crown className="w-4 h-4 text-yellow-500" />
+}
