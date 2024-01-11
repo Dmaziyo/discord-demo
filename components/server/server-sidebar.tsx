@@ -10,6 +10,7 @@ import { Separator } from '@/components/ui/separator'
 import initTranslations from '@/app/i18n'
 import ServerChannel from '@/components/server/server-channel'
 import { CHANNEL_ICON_MAP, MEMBER_ICON_MAP } from '@/constants/icon'
+import ServerMember from '@/components/server/server-member'
 
 interface ServerSideBarProps {
   serverId: string
@@ -59,7 +60,7 @@ const ServerSideBar = async ({ serverId, locale }: ServerSideBarProps) => {
   return (
     <div className="flex flex-col w-full h-full">
       <ServerHeader server={server} role={role}></ServerHeader>
-      <div className="flex-1 px-3">
+      <ScrollArea className="flex flex-col  flex-1 px-3">
         <ServerSearch
           searchData={[
             ...Object.values(ChannelType).map(type => ({
@@ -79,31 +80,38 @@ const ServerSideBar = async ({ serverId, locale }: ServerSideBarProps) => {
           ]}
         ></ServerSearch>
         <Separator className="mb-3"></Separator>
-        <ScrollArea>
-          {...Object.values(ChannelType).map(type => {
-            const filterChannels = channels.filter(channel => channel.type === type)
-            return (
-              !!filterChannels.length && (
-                <>
-                  <ServerSection
-                    channelType={type}
-                    role={role}
-                    label={`${t(type)} ${t('Channel')}`}
-                    type="channels"
-                    server={server}
-                  ></ServerSection>
-                  {filterChannels.map(channel => (
-                    <div className="mb-4" key={channel.id}>
-                      <ServerChannel id={channel.id} icon={CHANNEL_ICON_MAP[channel.type]} name={channel.name} role={role}></ServerChannel>
-                    </div>
-                  ))}
-                </>
-              )
+
+        {...Object.values(ChannelType).map(type => {
+          const filterChannels = channels.filter(channel => channel.type === type)
+          return (
+            !!filterChannels.length && (
+              <>
+                <ServerSection
+                  channelType={type}
+                  role={role}
+                  label={`${t(type)} ${t('Channel')}`}
+                  type="channels"
+                  server={server}
+                ></ServerSection>
+                {filterChannels.map(channel => (
+                  <div className="mb-4" key={channel.id}>
+                    <ServerChannel id={channel.id} icon={CHANNEL_ICON_MAP[channel.type]} name={channel.name} role={role}></ServerChannel>
+                  </div>
+                ))}
+              </>
             )
-          })}
-          {<ServerSection server={server} role={role} label={t('members')} type="members"></ServerSection>}
-        </ScrollArea>
-      </div>
+          )
+        })}
+
+        <>
+          <ServerSection server={server} role={role} label={t('members')} type="members"></ServerSection>
+          {members.map(member => (
+            <div key={member.id} className="mb-4">
+              <ServerMember member={member} server={server} role={role}></ServerMember>
+            </div>
+          ))}
+        </>
+      </ScrollArea>
     </div>
   )
 }
