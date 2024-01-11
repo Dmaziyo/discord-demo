@@ -12,6 +12,7 @@ import {
 import UserAvatar from '@/components/user-avator'
 import { ROLE_ICON_MAP } from '@/constants/icon'
 import { useClientTranslation } from '@/hooks/use-i18n'
+import { cn } from '@/lib/utils'
 import { useUser } from '@clerk/nextjs'
 import { Member, MemberRole, Profile, Server } from '@prisma/client'
 import axios from 'axios'
@@ -74,11 +75,15 @@ const ServerMember = ({ role, member, server }: ServerMemberProps) => {
       <div className="flex gap-x-2">
         <UserAvatar className="w-7 h-7  md:h-8 md:w-8" src={member.Profile.image} alt={member.Profile.name}></UserAvatar>
         <div className="flex flex-col text-sm font-medium">
-          <div className="flex gap-x-1">
-            {member.Profile.name}
+          <div className=" flex gap-x-1">
+            <span className={cn('text-zinc-500', member.Profile.id === user?.id && 'text-black dark:text-zinc-200')}>
+              {member.Profile.name}
+            </span>
             {ROLE_ICON_MAP[member.role]}
           </div>
-          <span className="text-xs text-zinc-500">{member.Profile.email}</span>
+          <span className={cn('text-xs text-zinc-500', member.Profile.id === user?.id && 'text-black dark:text-zinc-200')}>
+            {member.Profile.email}
+          </span>
         </div>
       </div>
       {role !== 'GUEST' && member.profileId !== user?.id && member.profileId !== server.profileId && loadingId !== member.id && (
