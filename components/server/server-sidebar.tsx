@@ -81,23 +81,24 @@ const ServerSideBar = async ({ serverId, locale }: ServerSideBarProps) => {
         <Separator className="mb-3"></Separator>
         <ScrollArea>
           {...Object.values(ChannelType).map(type => {
+            const filterChannels = channels.filter(channel => channel.type === type)
             return (
-              <>
-                <ServerSection
-                  channelType={type}
-                  role={role}
-                  label={`${t(type)} ${t('Channel')}`}
-                  type="channels"
-                  server={server}
-                ></ServerSection>
-                {channels
-                  .filter(channel => channel.type === type)
-                  .map(channel => (
+              !!filterChannels.length && (
+                <>
+                  <ServerSection
+                    channelType={type}
+                    role={role}
+                    label={`${t(type)} ${t('Channel')}`}
+                    type="channels"
+                    server={server}
+                  ></ServerSection>
+                  {filterChannels.map(channel => (
                     <div className="mb-4" key={channel.id}>
                       <ServerChannel id={channel.id} icon={CHANNEL_ICON_MAP[channel.type]} name={channel.name} role={role}></ServerChannel>
                     </div>
                   ))}
-              </>
+                </>
+              )
             )
           })}
           {<ServerSection server={server} role={role} label={t('members')} type="members"></ServerSection>}
