@@ -27,7 +27,11 @@ const ServerChannel = ({ role, icon, channel ,server}: ServerChannelProps) => {
         ) : (
           <div className="hidden group-hover:flex group-hover:items-center group-hover:gap-2 ml-auto ">
             <ActionToolTip label={t('Edit')}>
-              <button onClick={() => {}} className="">
+              <button 
+                onClick={() => {
+                  onOpen('editChannel', { channel,server })
+                }}
+              className="">
                 <Edit className="h-4 w-4 text-zinc-400"></Edit>
               </button>
             </ActionToolTip>

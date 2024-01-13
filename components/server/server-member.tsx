@@ -31,7 +31,7 @@ const ServerMember = ({ role, member, server }: ServerMemberProps) => {
   const router = useRouter()
   const { user } = useUser()
   const { t } = useClientTranslation()
-
+  
   //  修改member数据
   const onKick = async (memberId: string) => {
     try {

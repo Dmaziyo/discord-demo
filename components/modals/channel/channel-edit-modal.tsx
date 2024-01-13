@@ -31,11 +31,10 @@ const formSchema = z.object({
 
 type FormType = z.infer<typeof formSchema>
 
-const ChannelCreateModal = () => {
+const ChannelEditModal = () => {
   const router = useRouter()
   const { type, isOpen, onClose, data } = useModal()
-  const { channelType } = data
-  const params = useParams<{ serverId: string }>()
+  const { channel, server } = data
   const { t } = useClientTranslation()
   const form = useForm<FormType>({
     resolver: zodResolver(formSchema),
@@ -44,33 +43,33 @@ const ChannelCreateModal = () => {
       type: ChannelType.TEXT
     }
   })
-
+  const isOpened = isOpen && type === 'editChannel'
   useEffect(() => {
-    if (channelType) {
-      form.setValue('type', channelType)
+    if (channel && isOpened) {
+      form.setValue('name', channel.name)
+      form.setValue('type', channel.type)
     }
-  }, [form, channelType])
+  }, [form, channel, isOpened])
 
   const onSubmit = async (values: FormType) => {
     try {
       const url = qs.stringifyUrl({
-        url: '/api/channels',
+        url: `/api/channels/${channel?.id}`,
         query: {
-          serverId: params.serverId
+          serverId: server?.id
         }
       })
-      await axios.post(url, {
+      await axios.patch(url, {
         type: values.type,
         name: values.name
       })
+      onClose()
       form.reset()
       router.refresh()
     } catch (error) {
-      console.log('[SERVER_CREATE_ERROR]', error)
+      console.log('[SERVER_UPDATE_ERROR]', error)
     }
   }
-
-  const isOpened = isOpen && type === 'createChannel'
 
   const handleClose = () => {
     form.reset()
@@ -132,7 +131,7 @@ const ChannelCreateModal = () => {
             />
 
             <DialogFooter className="bg-gray-100 p-5">
-              <Button className="text-white bg-indigo-500 hover:bg-indigo-500/90">{t('Create')}</Button>
+              <Button className="text-white bg-indigo-500 hover:bg-indigo-500/90">{t('Save')}</Button>
             </DialogFooter>
           </form>
         </Form>
@@ -140,4 +139,4 @@ const ChannelCreateModal = () => {
     </Dialog>
   )
 }
-export default ChannelCreateModal
+export default ChannelEditModal
