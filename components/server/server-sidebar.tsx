@@ -95,7 +95,7 @@ const ServerSideBar = async ({ serverId, locale }: ServerSideBarProps) => {
                 ></ServerSection>
                 {filterChannels.map(channel => (
                   <div className="mb-3" key={channel.id}>
-                    <ServerChannel  icon={CHANNEL_ICON_MAP[channel.type]} channel={channel} role={role}></ServerChannel>
+                    <ServerChannel server={server} icon={CHANNEL_ICON_MAP[channel.type]} channel={channel} role={role}></ServerChannel>
                   </div>
                 ))}
               </>

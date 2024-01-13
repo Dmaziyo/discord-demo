@@ -3,7 +3,7 @@ import ActionToolTip from '@/components/action-tooltip'
 import { useClientTranslation } from '@/hooks/use-i18n'
 import { useModal } from '@/hooks/use-modal-state'
 import { cn } from '@/lib/utils'
-import { Channel, MemberRole } from '@prisma/client'
+import { Channel, MemberRole, Server } from '@prisma/client'
 import { Edit, Lock, Trash } from 'lucide-react'
 import { useParams } from 'next/navigation'
 
@@ -11,8 +11,9 @@ interface ServerChannelProps {
   channel: Channel
   role?: MemberRole
   icon?: React.ReactNode
+  server: Server
 }
-const ServerChannel = ({ role, icon, channel }: ServerChannelProps) => {
+const ServerChannel = ({ role, icon, channel ,server}: ServerChannelProps) => {
   const { onOpen } = useModal()
   const { t } = useClientTranslation()
   const params = useParams<{ serverId: string; channelId: string }>()
@@ -33,7 +34,7 @@ const ServerChannel = ({ role, icon, channel }: ServerChannelProps) => {
             <ActionToolTip label={t('Delete')}>
               <button
                 onClick={() => {
-                  onOpen('deleteChannel', { channel })
+                  onOpen('deleteChannel', { channel,server })
                 }}
                 className=""
               >

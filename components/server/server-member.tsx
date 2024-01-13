@@ -28,7 +28,6 @@ interface ServerMemberProps {
 }
 const ServerMember = ({ role, member, server }: ServerMemberProps) => {
   const [loadingId, setLoadingId] = useState('')
-  const params = useParams<{ serverId: string; channelId: string }>()
   const router = useRouter()
   const { user } = useUser()
   const { t } = useClientTranslation()
@@ -41,10 +40,10 @@ const ServerMember = ({ role, member, server }: ServerMemberProps) => {
       const url = qs.stringifyUrl({
         url: `/api/members/${memberId}`,
         query: {
-          serverId: params.serverId
+          serverId: server.id
         }
       })
-      const response = await axios.delete(url)
+      await axios.delete(url)
       router.refresh()
       setLoadingId('')
     } catch (error) {
@@ -59,7 +58,7 @@ const ServerMember = ({ role, member, server }: ServerMemberProps) => {
       const url = qs.stringifyUrl({
         url: `/api/members/${memberId}`,
         query: {
-          serverId: params.serverId
+          serverId: server.id
         }
       })
       const response = await axios.patch(url, { role })
