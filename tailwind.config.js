@@ -3,7 +3,13 @@ const { withUt } = require('uploadthing/tw')
 module.exports = withUt({
   darkMode: ['class'],
   mode: 'jit',
-  content: ['./pages/**/*.{ts,tsx}', './components/**/*.{ts,tsx}', './app/**/*.{ts,tsx}', './src/**/*.{ts,tsx}'],
+  content: [
+    './pages/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
+    './app/**/*.{ts,tsx}',
+    './src/**/*.{ts,tsx}',
+    './constants/**/*.{ts,tsx}'
+  ],
   theme: {
     container: {
       center: true,

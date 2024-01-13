@@ -9,12 +9,12 @@ export const CHANNEL_ICON_MAP = {
 
 export const MEMBER_ICON_MAP = {
   [MemberRole.GUEST]: null,
-  [MemberRole.MODERATOR]: <ShieldCheck className="w-4 h-4 mr-2" />,
+  [MemberRole.MODERATOR]: <ShieldCheck className="w-4 h-4 mr-2 text-indigo-500" />,
   [MemberRole.ADMIN]: <Crown className="w-4 h-4 text-yellow-500 mr-2" />
 }
 
 export const ROLE_ICON_MAP = {
   GUEST: null,
-  MODERATOR: <ShieldCheck className="w-4 h-4" />,
+  MODERATOR: <ShieldCheck className="w-4 h-4 text-indigo-500" />,
   ADMIN: <Crown className="w-4 h-4 text-yellow-500" />
 }
