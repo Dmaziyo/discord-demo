@@ -39,5 +39,6 @@
     "AUDIO": "语音",
     "VIDEO": "视频",
     "Channel": "频道",
-    "Edit": "编辑"
+    "Edit": "编辑",
+    "Delete Channel": "删除频道"
 }
