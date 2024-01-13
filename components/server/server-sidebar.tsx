@@ -94,7 +94,7 @@ const ServerSideBar = async ({ serverId, locale }: ServerSideBarProps) => {
                   server={server}
                 ></ServerSection>
                 {filterChannels.map(channel => (
-                  <div className="mb-4" key={channel.id}>
+                  <div className="mb-3" key={channel.id}>
                     <ServerChannel id={channel.id} icon={CHANNEL_ICON_MAP[channel.type]} name={channel.name} role={role}></ServerChannel>
                   </div>
                 ))}
@@ -106,7 +106,7 @@ const ServerSideBar = async ({ serverId, locale }: ServerSideBarProps) => {
         <>
           <ServerSection server={server} role={role} label={t('members')} type="members"></ServerSection>
           {members.map(member => (
-            <div key={member.id} className="mb-4">
+            <div key={member.id} className="mb-2">
               <ServerMember member={member} server={server} role={role}></ServerMember>
             </div>
           ))}

@@ -71,7 +71,7 @@ const ServerMember = ({ role, member, server }: ServerMemberProps) => {
   }
 
   return (
-    <div key={member.id} className="mb-5  p-2 flex items-center hover-animation rounded-md">
+    <div key={member.id} className="p-2 flex items-center hover-animation rounded-md">
       <div className="flex gap-x-2">
         <UserAvatar className="w-7 h-7  md:h-8 md:w-8" src={member.Profile.image} alt={member.Profile.name}></UserAvatar>
         <div className="flex flex-col text-sm font-medium">
