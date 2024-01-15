@@ -7,7 +7,7 @@ const ServerLayout = ({ children }: { children: React.ReactNode }) => {
       <div className="hidden md:flex flex-col fixed  inset-y-0 w-[72px] z-30 py-3">
         <NavigationSidebar></NavigationSidebar>
       </div>
-      <div className="pl-[72px] h-full">{children}</div>
+      <div className="md:pl-[72px] h-full">{children}</div>
     </div>
   )
 }

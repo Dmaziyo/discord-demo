@@ -58,7 +58,7 @@ const ServerSideBar = async ({ serverId, locale }: ServerSideBarProps) => {
   const role = members.find(item => item.profileId === profile.id)?.role
 
   return (
-    <div className="flex flex-col w-full h-full">
+    <div className="flex flex-col w-full h-full bg-[#F2F3F5] dark:bg-[#2B2D31]">
       <ServerHeader server={server} role={role}></ServerHeader>
       <ScrollArea className="flex flex-col  flex-1 px-3">
         <ServerSearch

@@ -29,13 +29,11 @@ const NavigationItem = ({ name, imageUrl, serverId }: NavigationItemProps) => {
         ></div>
         <div
           className={cn(
-            'overflow-hidden h-[40px] w-[40px] rounded-[24px] mx-3',
+            'relative overflow-hidden h-[48px] w-[48px]  md:h-[40px] md:w-[40px] rounded-[24px] mx-3',
             params.serverId === serverId ? 'rounded-[16px]' : 'rounded-[24px] group-hover:rounded-[16px] transition-all'
           )}
         >
-          <div className="h-[40px] w-[40px] overflow-hidden relative">
-            <Image sizes="fill" fill src={imageUrl} alt={name}></Image>
-          </div>
+          <Image sizes="fill" fill src={imageUrl} alt={name}></Image>
         </div>
       </button>
     </ActionToolTip>
