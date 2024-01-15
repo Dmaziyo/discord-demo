@@ -1,7 +1,7 @@
 import { Channel, ChannelType, Server } from '@prisma/client'
 import { create } from 'zustand'
 
-type ModalType =
+export type ModalType =
   | 'createServer'
   | 'invite'
   | 'editServer'

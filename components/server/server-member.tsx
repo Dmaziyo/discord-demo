@@ -16,8 +16,8 @@ import { cn } from '@/lib/utils'
 import { useUser } from '@clerk/nextjs'
 import { Member, MemberRole, Profile, Server } from '@prisma/client'
 import axios from 'axios'
-import { Check, Edit, Loader2, Lock, LogOut, MoreVertical, Shield, ShieldCheck, ShieldQuestion, Trash } from 'lucide-react'
-import { useParams, useRouter } from 'next/navigation'
+import { Check, Loader2, LogOut, MoreVertical, Shield, ShieldCheck, ShieldQuestion } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import qs from 'query-string'
 import { useState } from 'react'
 
@@ -31,7 +31,10 @@ const ServerMember = ({ role, member, server }: ServerMemberProps) => {
   const router = useRouter()
   const { user } = useUser()
   const { t } = useClientTranslation()
-  
+
+  const onClick = () => {
+    router.push(`/servers/${server.id}/conversations/${member.id}`)
+  }
   //  修改member数据
   const onKick = async (memberId: string) => {
     try {
@@ -61,7 +64,7 @@ const ServerMember = ({ role, member, server }: ServerMemberProps) => {
           serverId: server.id
         }
       })
-      const response = await axios.patch(url, { role })
+      await axios.patch(url, { role })
       router.refresh()
       setLoadingId('')
     } catch (error) {
@@ -69,8 +72,23 @@ const ServerMember = ({ role, member, server }: ServerMemberProps) => {
     }
   }
 
+  const onAction = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, actionType: 'role' | 'kick', role?: MemberRole) => {
+    e.stopPropagation()
+    if (actionType === 'role' && role) {
+      onRoleChange(member.id, role)
+    } else {
+      onKick(member.id)
+    }
+  }
   return (
-    <div key={member.id} className="p-2 flex items-center hover-animation rounded-md">
+    <div
+      onClick={onClick}
+      key={member.id}
+      className={cn(
+        'p-2 flex items-center hover-animation rounded-md',
+        member.Profile.id === user?.id && 'bg-zinc-700/10 dark:bg-zinc-700/50'
+      )}
+    >
       <div className="flex gap-x-2">
         <UserAvatar className="w-7 h-7  md:h-8 md:w-8" src={member.Profile.image} alt={member.Profile.name}></UserAvatar>
         <div className="flex flex-col text-sm font-medium">
@@ -98,12 +116,12 @@ const ServerMember = ({ role, member, server }: ServerMemberProps) => {
               </DropdownMenuSubTrigger>
               <DropdownMenuPortal>
                 <DropdownMenuSubContent>
-                  <DropdownMenuItem onClick={() => onRoleChange(member.id, 'GUEST')}>
+                  <DropdownMenuItem onClick={e => onAction(e, 'role', 'GUEST')}>
                     <Shield className="w-4 h-4 mr-2" />
                     <span className="capitalize">{t('guest')}</span>
                     {member.role === 'GUEST' && <Check className="h-4 w-4 ml-auto" />}
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => onRoleChange(member.id, 'MODERATOR')}>
+                  <DropdownMenuItem onClick={e => onAction(e, 'role', 'MODERATOR')}>
                     <ShieldCheck className="mr-2 h-4 w-4" />
                     <span className="capitalize">{t('moderator')}</span>
                     {member.role === 'MODERATOR' && <Check className="h-4 w-4 ml-auto" />}
@@ -111,7 +129,7 @@ const ServerMember = ({ role, member, server }: ServerMemberProps) => {
                 </DropdownMenuSubContent>
               </DropdownMenuPortal>
             </DropdownMenuSub>
-            <DropdownMenuItem onClick={() => onKick(member.id)}>
+            <DropdownMenuItem onClick={e => onAction(e, 'kick')}>
               <LogOut className="h-4 w-4 mr-2" />
               <span className="capitalize">{t('kick')}</span>
             </DropdownMenuItem>
