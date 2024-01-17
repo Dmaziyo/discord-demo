@@ -61,8 +61,9 @@ model Channel {
   profileId String
   Profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  channelMessages ChannelMessage[]
 
   @@index([profileId])
   @@index([serverId])
@@ -84,9 +85,56 @@ model Member {
   serverId String
   Server   Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  channelMessages ChannelMessage[]
+  directMessages  DirectMessage[]
+
+  conversationInitiated Conversation[] @relation("initiator")
+  conversationReceived  Conversation[] @relation("receiver")
 
   @@index([profileId])
   @@index([serverId])
+}
+
+model ChannelMessage {
+  id      String  @id @default(uuid())
+  content String  @db.Text
+  fileUrl String? @db.Text
+
+  deleted Boolean @default(false)
+
+  memberId String
+  member   Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
+
+  channelId String
+  channel   Channel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+}
+
+model DirectMessage {
+  id      String  @id @default(uuid())
+  content String  @db.Text
+  fileUrl String? @db.Text
+
+  deleted Boolean @default(false)
+
+  memberId String
+  member   Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
+
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+}
+
+model Conversation {
+  id String @id @default(uuid())
+
+  deleted Boolean @default(false)
+
+  directMessages DirectMessage[]
+
+  initiatorId String
+  initiator   Member @relation("initiator", fields: [initiatorId], references: [id], onDelete: Cascade)
+
+  receiverId String
+  receiver   Member @relation("receiver", fields: [receiverId], references: [id], onDelete: Cascade)
 }
