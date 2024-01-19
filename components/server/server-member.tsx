@@ -86,7 +86,7 @@ const ServerMember = ({ role, member, server }: ServerMemberProps) => {
       key={member.id}
       className={cn(
         'p-2 flex items-center hover-animation rounded-md',
-        member.Profile.id === user?.id && 'bg-zinc-700/10 dark:bg-zinc-700/50'
+        member.Profile.id === user?.id && 'bg-zinc-200/70 dark:bg-zinc-700/70'
       )}
     >
       <div className="flex gap-x-2">
