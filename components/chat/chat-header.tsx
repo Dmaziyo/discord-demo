@@ -1,4 +1,5 @@
 import MobileAction from '@/components/mobile-action'
+import UserAvatar from '@/components/user-avator'
 import { Hash } from 'lucide-react'
 
 interface ChatHeaderProps {
@@ -10,15 +11,17 @@ interface ChatHeaderProps {
 }
 
 const ChatHeader = ({ serverId, type, name, imageUrl, locale }: ChatHeaderProps) => {
-  if (type === 'channel') {
-    return (
-      <div className="flex p-3 items-center border-b-2">
-        <MobileAction locale={locale} serverId={serverId}></MobileAction>
+  return (
+    <div className="h-[50px] flex px-3 items-center border-b-2">
+      <MobileAction locale={locale} serverId={serverId}></MobileAction>
+      {type === 'channel' ? (
         <Hash className="w-5 h-5 mr-2 text-zinc-500  dark:text-zinc-400" />
-        {name}
-      </div>
-    )
-  }
+      ) : (
+        <UserAvatar className="md:w-9 md:h-9 mr-3" src={imageUrl} />
+      )}
+      {name}
+    </div>
+  )
 }
 
 export default ChatHeader

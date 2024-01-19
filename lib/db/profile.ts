@@ -5,13 +5,18 @@ import { redirect } from 'next/navigation'
 export async function currentProfile() {
   const { userId } = await auth()
 
-  if (!userId) return null
+  if (!userId) {
+    return redirect('/')
+  }
 
   let profile = await db.profile.findUnique({
     where: {
       id: userId // replace with the actual profile ID you're looking for
     }
   })
+  if (!profile) {
+    return redirect('/')
+  }
   return profile
 }
 
