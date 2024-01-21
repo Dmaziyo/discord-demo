@@ -8,7 +8,8 @@ export default authMiddleware({
   beforeAuth: req => {
     return intlMiddleWare(req)
   },
-  publicRoutes: ['/api/uploadthing']
+  publicRoutes: ['/api/uploadthing'],
+  ignoredRoutes: ['/api/socket']
 })
 
 export function intlMiddleWare(request: NextRequest) {
