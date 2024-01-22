@@ -14,7 +14,7 @@ export default  async function handler(req: NextApiRequest, res: NextApiResponse
     const httpServer = res.socket.server as any
     console.log('[ Socket Server initializing ] ')
     const io = new ServerIO(httpServer, {
-      path: '/api/socket',
+      path: '/api/socket/io',
       addTrailingSlash: false
     })
     res.socket.server.io = io

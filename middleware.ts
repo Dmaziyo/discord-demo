@@ -6,10 +6,11 @@ import { authMiddleware } from '@clerk/nextjs'
 
 export default authMiddleware({
   beforeAuth: req => {
-    return intlMiddleWare(req)
+    if (!req.url.includes('socket')) {
+      return intlMiddleWare(req)
+    }
   },
-  publicRoutes: ['/api/uploadthing'],
-  ignoredRoutes: ['/api/socket']
+  publicRoutes: ['/api/uploadthing']
 })
 
 export function intlMiddleWare(request: NextRequest) {
