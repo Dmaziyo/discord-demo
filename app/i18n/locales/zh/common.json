@@ -42,5 +42,6 @@
     "Edit": "编辑",
     "Delete Channel": "删除频道",
     "live":"连接成功",
-    "disconnected":"连接失败"
+    "disconnected":"连接失败",
+    "Message":"发送消息至 "
 }
