@@ -7,6 +7,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Plus, Settings, Smile } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import qs from 'query-string'
+import axios from 'axios'
+import { useState } from 'react'
 
 interface ChatInputProps {
   name: string
@@ -21,18 +24,31 @@ const FormSchema = z.object({
 
 const ChatInput = ({ name, apiUrl, query, type }: ChatInputProps) => {
   const { t } = useClientTranslation()
+  const [loading, setLoading] = useState(false)
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       content: ''
     }
   })
-  const onSubmit = (values: z.infer<typeof FormSchema>) => {
-    console.log('[ values ] >', values)
+
+  const onSubmit = async (values: z.infer<typeof FormSchema>) => {
+    try {
+      setLoading(true)
+      const url = qs.stringifyUrl({
+        url: apiUrl,
+        query
+      })
+      await axios.post(url, values)
+      form.reset()
+      setLoading(false)
+    } catch (error) {
+      console.log('[ CHAT_INPUT_MESSAGE ] >', error)
+    }
   }
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="">
+      <form onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
           name="content"
@@ -47,7 +63,13 @@ const ChatInput = ({ name, apiUrl, query, type }: ChatInputProps) => {
                   >
                     <Plus></Plus>
                   </Button>
-                  <Input className="bg-transparent outline-none border-none" placeholder={`${t('Message')} #${name}`} {...field} />
+                  <Input
+                    {...field}
+                    className="bg-transparent outline-none border-none"
+                    autoComplete="off"
+                    placeholder={`${t('Message')} #${name}`}
+                    disabled={loading}
+                  />
                   <Button variant="ghost" size="icon" className="w-7 h-7 hover:bg-transparent">
                     <Smile></Smile>
                   </Button>
