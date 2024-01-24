@@ -41,7 +41,10 @@
     "Channel": "频道",
     "Edit": "编辑",
     "Delete Channel": "删除频道",
-    "live":"连接成功",
-    "disconnected":"连接失败",
-    "Message":"发送消息至 "
+    "live": "连接成功",
+    "disconnected": "连接失败",
+    "Message": "发送消息至",
+    "Submit": "提交",
+    "Upload your attachment": "上传你的附件",
+    "Preview Address": "预览地址"
 }

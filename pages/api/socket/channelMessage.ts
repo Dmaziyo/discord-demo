@@ -13,7 +13,7 @@ export default async function channelMessageHandler(req: NextApiRequest, res: Ne
     const profile = await currentProfileForPage(req)
     if (req.method === 'POST') {
       const { serverId, channelId } = req.query
-      const { content } = req.body
+      const { content, fileUrl } = req.body
       if (!serverId) {
         return res.status(400).json({ error: 'SERVER_ID_MISSING' })
       }
@@ -57,7 +57,8 @@ export default async function channelMessageHandler(req: NextApiRequest, res: Ne
           channelMessages: {
             create: {
               memberId: server?.members[0].id as string,
-              content: content as string
+              content: content as string,
+              fileUrl
             }
           }
         }

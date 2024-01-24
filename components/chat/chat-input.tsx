@@ -10,6 +10,7 @@ import { z } from 'zod'
 import qs from 'query-string'
 import axios from 'axios'
 import { useState } from 'react'
+import { useModal } from '@/hooks/use-modal-state'
 
 interface ChatInputProps {
   name: string
@@ -25,6 +26,7 @@ const FormSchema = z.object({
 const ChatInput = ({ name, apiUrl, query, type }: ChatInputProps) => {
   const { t } = useClientTranslation()
   const [loading, setLoading] = useState(false)
+  const { onOpen } = useModal()
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -57,6 +59,9 @@ const ChatInput = ({ name, apiUrl, query, type }: ChatInputProps) => {
               <FormControl>
                 <div className="m-4 mb-6 px-2 flex bg-zinc-200/90 dark:bg-zinc-700/75 items-center rounded-md justify-around">
                   <Button
+                    onClick={() => {
+                      onOpen('fileAttachment', { apiUrl, query })
+                    }}
                     variant="ghost"
                     size="icon"
                     className="p-1 w-7 h-7 border-transparent rounded-full text-sm bg-zinc-500 hover:bg-zinc-600 dark:hover:bg-zinc-200 hover:text-white dark:bg-zinc-400 text-white dark:text-[#313338]"
