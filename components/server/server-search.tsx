@@ -42,9 +42,9 @@ const ServerSearch = ({ searchData }: ServerSearchProps) => {
     console.log('[click  ] >')
     if (type === 'channel') {
       setOpen(false)
-      router.push(`/servers/${params.serverId}/channels/${id}`)
+      router.push(`/servers/${params?.serverId}/channels/${id}`)
     } else if (type === 'member') {
-      router.push(`/servers/${params.serverId}/members/${id}`)
+      router.push(`/servers/${params?.serverId}/members/${id}`)
     }
   }
   return (

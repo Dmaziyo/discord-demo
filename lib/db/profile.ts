@@ -42,7 +42,12 @@ export async function currentProfileForPage(req: NextApiRequest) {
 
 export async function initialProfile() {
   const user = await currentUser()
-  let profile = await currentProfile()
+
+  let profile = await db.profile.findUnique({
+    where: {
+      id: user?.id // replace with the actual profile ID you're looking for
+    }
+  })
   if (user && !profile) {
     profile = await db.profile.create({
       data: {
