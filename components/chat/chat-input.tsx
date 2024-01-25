@@ -11,6 +11,7 @@ import qs from 'query-string'
 import axios from 'axios'
 import { useState } from 'react'
 import { useModal } from '@/hooks/use-modal-state'
+import EmojiPicker from '@/components/chat/emoji-picker'
 
 interface ChatInputProps {
   name: string
@@ -59,6 +60,7 @@ const ChatInput = ({ name, apiUrl, query, type }: ChatInputProps) => {
               <FormControl>
                 <div className="m-4 mb-6 px-2 flex bg-zinc-200/90 dark:bg-zinc-700/75 items-center rounded-md justify-around">
                   <Button
+                    type="button"
                     onClick={() => {
                       onOpen('fileAttachment', { apiUrl, query })
                     }}
@@ -75,9 +77,11 @@ const ChatInput = ({ name, apiUrl, query, type }: ChatInputProps) => {
                     placeholder={`${t('Message')} #${name}`}
                     disabled={loading}
                   />
-                  <Button variant="ghost" size="icon" className="w-7 h-7 hover:bg-transparent">
-                    <Smile></Smile>
-                  </Button>
+                  <EmojiPicker
+                    onChange={(emoji: any) => {
+                      field.onChange(`${field.value} ${emoji.native}`)
+                    }}
+                  ></EmojiPicker>
                 </div>
               </FormControl>
             </FormItem>
