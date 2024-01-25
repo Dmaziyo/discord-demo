@@ -12,7 +12,7 @@ export function useChangeLanguage() {
   const { i18n } = useTranslation()
   const currentLocale = i18n.language
   const router = useRouter()
-  const currentPathName = usePathname()
+  const currentPathName = usePathname() as string
 
   const handleChange = (newLocale: string) => {
     const days = 30
