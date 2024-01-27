@@ -1,17 +1,19 @@
 'use client'
 
 import { useClientTranslation } from '@/hooks/use-i18n'
+import { cn } from '@/lib/utils'
 import { MessageCircle, Hash } from 'lucide-react'
 
 interface ChatWelcomeProps {
   name: string
   type: 'channel' | 'conversation'
+  className?: string
 }
-const ChatWelcome = ({ name, type }: ChatWelcomeProps) => {
+const ChatWelcome = ({ name, type, className }: ChatWelcomeProps) => {
   const { t, i18n } = useClientTranslation()
   if (type === 'channel') {
     return (
-      <div className="flex gap-2 flex-col ml-4">
+      <div className={cn('flex gap-2 flex-col', className)}>
         <div className="h-[75px] w-[75px] rounded-full bg-zinc-500 dark:bg-zinc-700 flex items-center justify-center">
           <Hash className="w-12 h-12 text-white"></Hash>
         </div>
@@ -21,7 +23,7 @@ const ChatWelcome = ({ name, type }: ChatWelcomeProps) => {
     )
   }
   return (
-    <div className="flex gap-2 flex-col ml-4">
+    <div className={cn('flex gap-2 flex-col', className)}>
       <div className="h-[75px] w-[75px] rounded-full bg-zinc-500 dark:bg-zinc-700 flex items-center justify-center">
         <MessageCircle className="w-12 h-12 text-white" />
       </div>
