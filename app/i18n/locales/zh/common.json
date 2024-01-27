@@ -46,5 +46,8 @@
     "Message": "发送消息至",
     "Submit": "提交",
     "Upload your attachment": "上传你的附件",
-    "Preview Address": "预览地址"
+    "Preview Address": "预览地址",
+    "Welcome to":"欢迎来到",
+    "This is the start of the channel":"这是#{{name}}频道的开始",
+    "This is the start of the conversation with":"这是与{{name}}对话的开始"
 }

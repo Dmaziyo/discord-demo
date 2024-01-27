@@ -1,4 +1,6 @@
 {
     "save": "save",
-    "create": "create"
+    "create": "create",
+    "This is the start of the channel": "This is the start of the #{{name}} channel",
+"This is the start of the conversation with":"This is the start of the conversation with {{name}}"
 }
