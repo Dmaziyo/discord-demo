@@ -49,5 +49,7 @@
     "Preview Address": "预览地址",
     "Welcome to":"欢迎来到",
     "This is the start of the channel":"这是#{{name}}频道的开始",
-    "This is the start of the conversation with":"这是与{{name}}对话的开始"
+    "This is the start of the conversation with":"这是与{{name}}对话的开始",
+    "Loading...":"加载中...",
+    "Something went wrong":"服务器发送故障"
 }

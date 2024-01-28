@@ -10,6 +10,7 @@ import { ThemeProvider } from '@/components/providers/theme-provider'
 import ModalProvider from '@/components/providers/modal-provider'
 import TranslationsProvider from '@/components/providers/translation-provider'
 import SocketProvider from '@/components/providers/socket-provider'
+import QueryProvider from '@/components/providers/query-provider'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -27,12 +28,12 @@ export default function RootLayout({ children, params }: { children: React.React
       <html lang={params.locale} dir={dir(params.locale)}>
         <body className={inter.className}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-<SocketProvider>
-            <TranslationsProvider namespaces={['common']} locale={params.locale}>
-              <ModalProvider />
-              {children}
-            </TranslationsProvider>
-</SocketProvider>
+            <SocketProvider>
+              <TranslationsProvider namespaces={['common']} locale={params.locale}>
+                <ModalProvider />
+                <QueryProvider>{children}</QueryProvider>
+              </TranslationsProvider>
+            </SocketProvider>
           </ThemeProvider>
         </body>
       </html>

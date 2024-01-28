@@ -1,9 +1,12 @@
 'use client'
 import ChatWelcome from '@/components/chat/chat-welcome'
 import { ChannelMessage, Profile } from '@prisma/client'
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import qs from 'query-string'
 import axios from 'axios'
+import useChatQuery from '@/hooks/use-chat-query'
+import { Loader2, ServerCrash } from 'lucide-react'
+import { useClientTranslation } from '@/hooks/use-i18n'
 
 interface ChatMessageProps {
   name: string
@@ -17,32 +20,40 @@ type ChannelMessageWithMemberProfile = ChannelMessage & {
   }
 }
 const ChatMessage = ({ name, type, apiUrl, query }: ChatMessageProps) => {
-  const [messages, setMessages] = useState<ChannelMessageWithMemberProfile[]>([])
+  const { t } = useClientTranslation()
+  const queryKey = `chat:${query.channelId || query.conversationId}`
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const url = qs.stringifyUrl({
-        url: apiUrl,
-        query
-      })
-      const res = await axios.get(url)
-      console.log('[ res ] >', res)
-      setMessages(res.data.items)
-    }
-    fetchData()
-  }, [apiUrl, query])
+  const { data, status, fetchNextPage } = useChatQuery({ apiUrl, query, queryKey })
+  if (status === 'pending') {
+    return (
+      <div className="flex flex-col gap-1 flex-1 items-center justify-center">
+        <Loader2 className="w-7 h-7 text-zinc-500 animate-spin" />
+        <span className="text-zinc-400">{t('Loading...')}</span>
+      </div>
+    )
+  } else if (status === 'error') {
+    return (
+      <div className="flex flex-col gap-1 flex-1 items-center justify-center">
+        <ServerCrash className="w-7 h-7 text-rose-500 " />
+        <span className="text-zinc-400">{t('Something went wrong')}</span>
+      </div>
+    )
+  }
   return (
     <div className="flex flex-col-reverse flex-1">
       <ChatWelcome className="order-1 ml-4" name={name} type={type}></ChatWelcome>
-      {messages.length && (
+      {data?.pages.length && (
         <div className="flex flex-col-reverse">
-          {messages.map((message, idx) => (
-            <div key={message.id}>{message.content}</div>
-          ))}
+          {data.pages.map(group =>
+            group.items.map((message: ChannelMessageWithMemberProfile) => (
+              <Fragment key={message.id}>
+                <div>{message.content}</div>
+              </Fragment>
+            ))
+          )}
         </div>
       )}
     </div>
   )
 }
-
 export default ChatMessage
