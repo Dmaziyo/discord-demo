@@ -1,21 +1,23 @@
 'use client'
 import ChatWelcome from '@/components/chat/chat-welcome'
-import { ChannelMessage, Profile } from '@prisma/client'
+import { ChannelMessage, Member, Profile } from '@prisma/client'
 import { Fragment, useEffect, useState } from 'react'
 import qs from 'query-string'
-import axios from 'axios'
 import useChatQuery from '@/hooks/use-chat-query'
 import { Loader2, ServerCrash } from 'lucide-react'
 import { useClientTranslation } from '@/hooks/use-i18n'
+import ChatItem from '@/components/chat/chat-item'
+import dateFormat from '@/lib/date-format'
 
 interface ChatMessageProps {
   name: string
   type: 'channel' | 'conversation'
   apiUrl: string
   query: Partial<Record<'conversationId' | 'channelId', string>>
+  member: Member
 }
 type ChannelMessageWithMemberProfile = ChannelMessage & {
-  member: {
+  member: Member & {
     Profile: Profile
   }
 }
@@ -40,14 +42,14 @@ const ChatMessage = ({ name, type, apiUrl, query }: ChatMessageProps) => {
     )
   }
   return (
-    <div className="flex flex-col-reverse flex-1">
+    <div className="flex flex-col-reverse flex-1 overflow-y-auto">
       <ChatWelcome className="order-1 ml-4" name={name} type={type}></ChatWelcome>
       {data?.pages.length && (
         <div className="flex flex-col-reverse">
           {data.pages.map(group =>
             group.items.map((message: ChannelMessageWithMemberProfile) => (
               <Fragment key={message.id}>
-                <div>{message.content}</div>
+                <ChatItem fileUrl={message.fileUrl} timestamp={dateFormat(message.createdAt)} member={message.member} content={message.content}></ChatItem>
               </Fragment>
             ))
           )}
