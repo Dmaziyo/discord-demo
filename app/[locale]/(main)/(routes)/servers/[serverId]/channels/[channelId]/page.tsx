@@ -39,7 +39,13 @@ const ChannelIdPage = async ({
   return (
     <div className="flex flex-col bg-white dark:bg-[#313338] h-full w-full">
       <ChatHeader locale={params.locale} serverId={params.serverId} type="channel" name={channel.name}></ChatHeader>
-      <ChatMessage apiUrl="/api/channelMessage" query={{ channelId: channel.id }} type="channel" name={channel.name}></ChatMessage>
+      <ChatMessage
+        member={member}
+        apiUrl="/api/channelMessage"
+        query={{ channelId: channel.id }}
+        type="channel"
+        name={channel.name}
+      ></ChatMessage>
       <ChatInput
         apiUrl="/api/socket/channelMessage"
         query={{ serverId: params.serverId, channelId: params.channelId }}
