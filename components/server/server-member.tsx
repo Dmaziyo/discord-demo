@@ -85,7 +85,7 @@ const ServerMember = ({ role, member, server }: ServerMemberProps) => {
       onClick={onClick}
       key={member.id}
       className={cn(
-        'p-2 flex items-center hover-animation rounded-md',
+        'p-2 flex items-center hover-animation rounded-md cursor-pointer',
         member.Profile.id === user?.id && 'bg-zinc-200/70 dark:bg-zinc-700/70'
       )}
     >

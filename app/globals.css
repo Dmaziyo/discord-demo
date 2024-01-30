@@ -81,6 +81,6 @@ body {
 }
 @layer utilities {
   .hover-animation {
-    @apply hover:bg-zinc-700/10  dark:hover:bg-zinc-700/50 transition cursor-pointer;
+    @apply hover:bg-zinc-700/10  dark:hover:bg-zinc-700/50 transition;
   }
 }

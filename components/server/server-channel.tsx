@@ -29,7 +29,7 @@ const ServerChannel = ({ role, icon, channel, server }: ServerChannelProps) => {
     <div
       onClick={onClick}
       className={cn(
-        'group flex items-center p-2 mb-2 hover-animation rounded-md',
+        'group flex items-center p-2 mb-2 hover-animation cursor-pointer rounded-md',
         channel.id === params?.channelId && 'bg-zinc-700/10 dark:bg-zinc-700/50'
       )}
     >

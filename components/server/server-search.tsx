@@ -51,7 +51,7 @@ const ServerSearch = ({ searchData }: ServerSearchProps) => {
     <>
       <div
         onClick={() => setOpen(true)}
-        className="flex text-sm items-center gap-2 p-2 hover-animation rounded-md"
+        className="flex text-sm items-center gap-2 p-2 hover-animation cursor-pointer rounded-md"
       >
         <Search className="w-4 h-4 text-zinc-500" />
         {t('Search')}
