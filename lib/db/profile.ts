@@ -52,7 +52,7 @@ export async function initialProfile() {
     profile = await db.profile.create({
       data: {
         id: user.id,
-        name: `${user.firstName}${user.lastName}`,
+        name: `${user.firstName} ${user.lastName}`,
         image: user.imageUrl,
         email: user.emailAddresses[0].emailAddress
       }
