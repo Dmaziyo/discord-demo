@@ -4,4 +4,5 @@ interface resource {
 }
 type ResourceKey = keyof resource
 export type LangKeys<T> = T extends ResourceKey ? keyof resource[T] : never
-export type ITran = (key: LangKeys<ResourceKey>) => string
+export type LangValues = LangKeys<ResourceKey>
+export type ITran = (key: LangValues) => string
