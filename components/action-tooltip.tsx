@@ -13,8 +13,8 @@ const ActionToolTip = ({ label, children, side, align }: ActionToolTipProps) => 
     <TooltipProvider delayDuration={50}>
       <Tooltip>
         <TooltipTrigger asChild>{children}</TooltipTrigger>
-        <TooltipContent className='font-bold' side={side} align={align}>
-          {label}
+        <TooltipContent className='font-semibold capitalize' side={side} align={align}>
+          {label.toLocaleLowerCase()}
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
