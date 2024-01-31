@@ -22,7 +22,7 @@
     "role": "身份",
     "guest": "成员",
     "moderator": "管理员",
-    "admin":"创建者",
+    "admin": "创建者",
     "create your channel": "创建你的频道",
     "channel name": "频道名称",
     "Enter channel name": "输入频道名称",
@@ -48,9 +48,10 @@
     "Submit": "提交",
     "Upload your attachment": "上传你的附件",
     "Preview Address": "预览地址",
-    "Welcome to":"欢迎来到",
-    "This is the start of the channel":"这是#{{name}}频道的开始",
-    "This is the start of the conversation with":"这是与{{name}}对话的开始",
-    "Loading...":"加载中...",
-    "Something went wrong":"服务器发送故障"
+    "Welcome to": "欢迎来到",
+    "This is the start of the channel": "这是#{{name}}频道的开始",
+    "This is the start of the conversation with": "这是与{{name}}对话的开始",
+    "Loading...": "加载中...",
+    "Something went wrong": "服务器发送故障",
+    "Press escape to cancel ,enter to save": "按 Esc 取消, 按enter确定修改"
 }

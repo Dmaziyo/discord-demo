@@ -21,7 +21,7 @@ type ChannelMessageWithMemberProfile = ChannelMessage & {
     Profile: Profile
   }
 }
-const ChatMessage = ({ name, type, apiUrl, query }: ChatMessageProps) => {
+const ChatMessage = ({ name, type, apiUrl, query, member }: ChatMessageProps) => {
   const { t } = useClientTranslation()
   const queryKey = `chat:${query.channelId || query.conversationId}`
 
@@ -49,7 +49,13 @@ const ChatMessage = ({ name, type, apiUrl, query }: ChatMessageProps) => {
           {data.pages.map(group =>
             group.items.map((message: ChannelMessageWithMemberProfile) => (
               <Fragment key={message.id}>
-                <ChatItem fileUrl={message.fileUrl} timestamp={dateFormat(message.createdAt)} member={message.member} content={message.content}></ChatItem>
+                <ChatItem
+                  currentMember={member}
+                  fileUrl={message.fileUrl}
+                  timestamp={dateFormat(message.createdAt)}
+                  member={message.member}
+                  content={message.content}
+                ></ChatItem>
               </Fragment>
             ))
           )}
