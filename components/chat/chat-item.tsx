@@ -17,6 +17,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Input } from '@/components/ui/input'
 import axios from 'axios'
+import { useModal } from '@/hooks/use-modal-state'
 
 interface ChatItemProps {
   member: Member & {
@@ -25,16 +26,17 @@ interface ChatItemProps {
   content: string
   timestamp: string
   fileUrl: string | null
-  currentMember: Member,
-  edited:boolean,
+  currentMember: Member
+  edited: boolean
   apiUrl: string
 }
 
 const formSchema = z.object({
   content: z.string().min(1)
 })
-const ChatItem = ({ currentMember, fileUrl, member, content, timestamp, apiUrl,edited }: ChatItemProps) => {
+const ChatItem = ({ currentMember, fileUrl, member, content, timestamp, apiUrl, edited }: ChatItemProps) => {
   const [editing, setEditing] = useState(false)
+  const { onOpen } = useModal()
   const { t } = useClientTranslation()
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -108,12 +110,10 @@ const ChatItem = ({ currentMember, fileUrl, member, content, timestamp, apiUrl,e
           {/* 展示消息 */}
           {!fileUrl &&
             (!editing ? (
-              <div>{content}
-              {edited&&(
-                <span className='ml-1 text-[10px] text-zinc-300'>({t('edited')})</span>
-              )}
+              <div>
+                {content}
+                {edited && <span className="ml-1 text-[10px] text-zinc-300">({t('edited')})</span>}
               </div>
-
             ) : (
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -147,7 +147,10 @@ const ChatItem = ({ currentMember, fileUrl, member, content, timestamp, apiUrl,e
           )}
           {canDelete && (
             <ActionTooltip label={t('Delete')}>
-              <Trash className="h-4 w-4 cursor-pointer text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition"></Trash>
+              <Trash
+                onClick={() => onOpen('deleteMessage', { apiUrl })}
+                className="h-4 w-4 cursor-pointer text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition"
+              ></Trash>
             </ActionTooltip>
           )}
         </div>

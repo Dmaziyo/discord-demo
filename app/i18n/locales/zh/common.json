@@ -54,5 +54,8 @@
     "Loading...": "加载中...",
     "Something went wrong": "服务器发送故障",
     "Press escape to cancel ,enter to save": "按 Esc 取消, 按enter确定修改",
-    "edited": "已修改"
+    "edited": "已修改",
+    "Cancel":"取消",
+    "Confirm":"确定",
+    "This action cannot be undone.":"该行为无法撤回，请谨慎考虑"
 }
