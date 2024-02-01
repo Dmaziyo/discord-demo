@@ -56,7 +56,7 @@ const ChannelCreateModal = () => {
       const url = qs.stringifyUrl({
         url: '/api/channels',
         query: {
-          serverId: params.serverId
+          serverId: params?.serverId
         }
       })
       await axios.post(url, {
@@ -79,9 +79,9 @@ const ChannelCreateModal = () => {
 
   return (
     <Dialog open={isOpened} onOpenChange={handleClose}>
-      <DialogContent className="bg-white text-black p-0">
+      <DialogContent className="bg-white text-primary p-0 dark:bg-[#1E1F22]   ">
         <DialogHeader className="p-8">
-          <DialogTitle className="text-black text-center text-3xl font-bold capitalize">{t('create your channel')}</DialogTitle>
+          <DialogTitle className="text-primary text-center text-3xl font-bold capitalize">{t('create your channel')}</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -93,7 +93,7 @@ const ChannelCreateModal = () => {
                   <FormItem className="px-5">
                     <FormLabel className="uppercase text-zinc-500 text-sm font-bold">{t('channel name')}</FormLabel>
                     <FormControl>
-                      <Input className="bg-zinc-300/50 text-black without-ring" placeholder={t('Enter channel name')} {...field} />
+                      <Input className="bg-zinc-300/50 dark:bg-zinc-700 text-black without-ring" placeholder={t('Enter channel name')} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -109,10 +109,10 @@ const ChannelCreateModal = () => {
                     <FormLabel className="uppercase text-zinc-500 text-sm font-bold">{t('channel type')}</FormLabel>
                     <FormControl>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <SelectTrigger className="bg-zinc-300/50 uppercase focus:ring-transparent ">
+                        <SelectTrigger className="bg-zinc-300/50 dark:bg-zinc-700 border-none uppercase focus:ring-transparent ">
                           <SelectValue placeholder={t('select channel type')} />
                         </SelectTrigger>
-                        <SelectContent>
+                        <SelectContent className='dark:bg-zinc-700'>
                           <SelectItem className="uppercase" value={ChannelType.TEXT}>
                             {t('text')}
                           </SelectItem>
@@ -131,7 +131,7 @@ const ChannelCreateModal = () => {
               }}
             />
 
-            <DialogFooter className="bg-gray-100 p-5">
+            <DialogFooter className="bg-gray-100 p-5   dark:bg-[#313338]/10">
               <Button className="text-white bg-indigo-500 hover:bg-indigo-500/90">{t('Create')}</Button>
             </DialogFooter>
           </form>

@@ -49,10 +49,7 @@ const ServerSearch = ({ searchData }: ServerSearchProps) => {
   }
   return (
     <>
-      <div
-        onClick={() => setOpen(true)}
-        className="flex text-sm items-center gap-2 p-2 hover-animation cursor-pointer rounded-md"
-      >
+      <div onClick={() => setOpen(true)} className="flex text-sm items-center gap-2 p-2 hover-animation cursor-pointer rounded-md">
         <Search className="w-4 h-4 text-zinc-500" />
         {t('Search')}
         <kbd className="ml-auto pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
@@ -61,8 +58,8 @@ const ServerSearch = ({ searchData }: ServerSearchProps) => {
       </div>
 
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput placeholder={t('Search members or channels')} />
-        <CommandList>
+        <CommandInput  placeholder={t('Search members or channels')} />
+        <CommandList className="dark:bg-[#1E1F22]">
           <CommandEmpty>{t('No results found')}</CommandEmpty>
           {searchData
             .filter(group => group.data?.length)

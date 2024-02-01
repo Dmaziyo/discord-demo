@@ -39,7 +39,7 @@ const ServerHeader = ({ server, role }: ServerHeaderProps) => {
           <ChevronDown className="hidden md:block ml-auto" />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56 dark:text-neutral-400 ">
+      <DropdownMenuContent className="w-56  dark:bg-[#1E1F22] ">
         {isAdmin && (
           <DropdownMenuItem
             onClick={() => onOpen('invite', { server })}

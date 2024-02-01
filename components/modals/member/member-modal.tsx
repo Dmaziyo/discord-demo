@@ -27,7 +27,6 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { ROLE_ICON_MAP } from '@/constants/icon'
 
-
 const MemberModal = () => {
   const { type, isOpen, onClose, onOpen, data } = useModal()
   const [loadingId, setLoadingId] = useState('')
@@ -79,9 +78,9 @@ const MemberModal = () => {
 
   return (
     <Dialog open={isOpened} onOpenChange={onClose}>
-      <DialogContent className="bg-white text-black p-8">
+      <DialogContent className="bg-white text-primary p-8 dark:bg-[#1E1F22]">
         <DialogHeader>
-          <DialogTitle className="text-black text-center text-3xl font-bold">{t('Manage Your Members')}</DialogTitle>
+          <DialogTitle className=" text-center text-3xl font-bold">{t('Manage Your Members')}</DialogTitle>
           <DialogDescription className="flex justify-center gap-x-1">
             <span>{`${server?.members.length}`}</span>
             {t('members')}
@@ -105,14 +104,14 @@ const MemberModal = () => {
                   <DropdownMenuTrigger className="ml-auto">
                     <MoreVertical className="text-zinc-500 h-4 w-4" />
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="center">
+                  <DropdownMenuContent className="dark:bg-[#1E1F22]" align="center">
                     <DropdownMenuSub>
                       <DropdownMenuSubTrigger>
                         <ShieldQuestion className="mr-2 h-4 w-4" />
                         <span className="capitalize">{t('role')}</span>
                       </DropdownMenuSubTrigger>
                       <DropdownMenuPortal>
-                        <DropdownMenuSubContent>
+                        <DropdownMenuSubContent className="dark:bg-[#1E1F22]">
                           <DropdownMenuItem onClick={() => onRoleChange(member.id, 'GUEST')}>
                             <Shield className="w-4 h-4 mr-2" />
                             <span className="capitalize">{t('guest')}</span>

@@ -38,7 +38,7 @@ const DeleteMessageModal = () => {
 
   return (
     <AlertDialog open={isOpened}>
-      <AlertDialogContent>
+      <AlertDialogContent className='dark:bg-[#1E1F22]'>
         <AlertDialogHeader>
           <AlertDialogTitle>{t('Are you sure to delete')}</AlertDialogTitle>
           <AlertDialogDescription>{t('This action cannot be undone.')}</AlertDialogDescription>

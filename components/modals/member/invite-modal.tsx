@@ -45,14 +45,14 @@ const InviteModal = () => {
 
   return (
     <Dialog open={isOpened} onOpenChange={onClose}>
-      <DialogContent className="bg-white text-black p-0">
+      <DialogContent className="bg-white text-primary p-0 dark:bg-[#1E1F22]   ">
         <DialogHeader className="p-8">
-          <DialogTitle className="text-black text-center text-3xl font-bold">{t('Invite Your Friends')}</DialogTitle>
+          <DialogTitle className=" text-center text-3xl font-bold">{t('Invite Your Friends')}</DialogTitle>
           <div className="flex pt-9 flex-col">
             <div className="uppercase text-sm font-bold text-zinc-500">{t('server invite link')}</div>
             <div className="flex mt-3 items-center gap-2">
-              <Input readOnly disabled={loading} value={inviteUrl} className="bg-zinc-300"></Input>
-              <Button disabled={loading} onClick={onCopy} className="dark:bg-transparent bg-neutral-500" size="icon">
+              <Input readOnly disabled={loading} value={inviteUrl} className="bg-zinc-300 dark:bg-zinc-500"></Input>
+              <Button disabled={loading} onClick={onCopy} className="dark:bg-neutral-300/40 dark:hover:bg-neutral-100 bg-neutral-500" size="icon">
                 {copied ? <Check></Check> : <Copy></Copy>}
               </Button>
             </div>

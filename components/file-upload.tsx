@@ -50,7 +50,8 @@ const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
     )
   }
   return (
-    <UploadDropzone
+    <UploadDropzone 
+    className='dark:border-white'
       onClientUploadComplete={res => {
         onChange(res[0].url)
       }}

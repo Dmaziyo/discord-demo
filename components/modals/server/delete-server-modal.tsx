@@ -30,9 +30,9 @@ const DeleteServerModal = () => {
 
   return (
     <Dialog open={isOpened} onOpenChange={onClose}>
-      <DialogContent className="bg-white text-black p-0">
+      <DialogContent className="bg-white text-primary p-0 dark:bg-[#1E1F22]   ">
         <DialogHeader className="p-8">
-          <DialogTitle className="text-black text-center text-3xl font-bold">{t('Delete Server')}</DialogTitle>
+          <DialogTitle className="text-primary text-center text-3xl font-bold">{t('Delete Server')}</DialogTitle>
           <DialogDescription className="text-center text-rose-300 ">
             {t('Are you sure to delete')}
             <span className="ml-1 font-bold">{server?.name}</span>?
