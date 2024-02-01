@@ -26,7 +26,7 @@ export async function currentProfileForPage(req: NextApiRequest) {
   const { userId } = await getAuth(req)
 
   if (!userId) {
-    return redirect('/')
+    return null
   }
 
   let profile = await db.profile.findUnique({
@@ -34,9 +34,6 @@ export async function currentProfileForPage(req: NextApiRequest) {
       id: userId // replace with the actual profile ID you're looking for
     }
   })
-  if (!profile) {
-    return redirect('/')
-  }
   return profile
 }
 

@@ -11,6 +11,9 @@ export default async function channelMessageHandler(req: NextApiRequest, res: Ne
       return res.status(500).send({ error: 'SOCKET SERVER DISCONNECTED' })
     }
     const profile = await currentProfileForPage(req)
+    if (!profile) {
+      return res.status(401).json({ error: 'Unauthorized' })
+    }
     if (req.method === 'POST') {
       const { serverId, channelId } = req.query
       const { content, fileUrl } = req.body
@@ -23,7 +26,7 @@ export default async function channelMessageHandler(req: NextApiRequest, res: Ne
       if (!content) {
         return res.status(400).json({ error: 'CONTENT_MISSING' })
       }
-      // 先确定是否有权限
+      // 先确定是否为该群成员
       const server = await db.server.findFirst({
         where: {
           id: serverId as string,

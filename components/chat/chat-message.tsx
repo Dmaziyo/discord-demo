@@ -1,8 +1,7 @@
 'use client'
 import ChatWelcome from '@/components/chat/chat-welcome'
 import { ChannelMessage, Member, Profile } from '@prisma/client'
-import { Fragment, useEffect, useState } from 'react'
-import qs from 'query-string'
+import { Fragment } from 'react'
 import useChatQuery from '@/hooks/use-chat-query'
 import { Loader2, ServerCrash } from 'lucide-react'
 import { useClientTranslation } from '@/hooks/use-i18n'
@@ -23,7 +22,7 @@ type ChannelMessageWithMemberProfile = ChannelMessage & {
 }
 const ChatMessage = ({ name, type, apiUrl, query, member }: ChatMessageProps) => {
   const { t } = useClientTranslation()
-  const queryKey = `chat:${query.channelId || query.conversationId}`
+  const queryKey = `chat:${type}:${query.channelId || query.conversationId}`
 
   const { data, status, fetchNextPage } = useChatQuery({ apiUrl, query, queryKey })
   if (status === 'pending') {
@@ -55,6 +54,8 @@ const ChatMessage = ({ name, type, apiUrl, query, member }: ChatMessageProps) =>
                   timestamp={dateFormat(message.createdAt)}
                   member={message.member}
                   content={message.content}
+                  edited={message.updatedAt !== message.createdAt}
+                  apiUrl={`/api/socket/${type}Message/${message.id}`}
                 ></ChatItem>
               </Fragment>
             ))

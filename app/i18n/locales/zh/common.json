@@ -53,5 +53,6 @@
     "This is the start of the conversation with": "这是与{{name}}对话的开始",
     "Loading...": "加载中...",
     "Something went wrong": "服务器发送故障",
-    "Press escape to cancel ,enter to save": "按 Esc 取消, 按enter确定修改"
+    "Press escape to cancel ,enter to save": "按 Esc 取消, 按enter确定修改",
+    "edited": "已修改"
 }

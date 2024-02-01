@@ -16,6 +16,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Input } from '@/components/ui/input'
+import axios from 'axios'
 
 interface ChatItemProps {
   member: Member & {
@@ -24,13 +25,15 @@ interface ChatItemProps {
   content: string
   timestamp: string
   fileUrl: string | null
-  currentMember: Member
+  currentMember: Member,
+  edited:boolean,
+  apiUrl: string
 }
 
 const formSchema = z.object({
   content: z.string().min(1)
 })
-const ChatItem = ({ currentMember, fileUrl, member, content, timestamp }: ChatItemProps) => {
+const ChatItem = ({ currentMember, fileUrl, member, content, timestamp, apiUrl,edited }: ChatItemProps) => {
   const [editing, setEditing] = useState(false)
   const { t } = useClientTranslation()
 
@@ -57,8 +60,10 @@ const ChatItem = ({ currentMember, fileUrl, member, content, timestamp }: ChatIt
     form.setValue('content', content)
   }, [content, form])
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    // TODO 调用修改message的api(url由父组件传入)
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    await axios.patch(apiUrl, values)
+    // 无需修改，等待socket监听更新事件重新请求
+    setEditing(false)
   }
 
   const onDelete = () => {
@@ -103,7 +108,12 @@ const ChatItem = ({ currentMember, fileUrl, member, content, timestamp }: ChatIt
           {/* 展示消息 */}
           {!fileUrl &&
             (!editing ? (
-              <div>{content}</div>
+              <div>{content}
+              {edited&&(
+                <span className='ml-1 text-[10px] text-zinc-300'>({t('edited')})</span>
+              )}
+              </div>
+
             ) : (
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}>
