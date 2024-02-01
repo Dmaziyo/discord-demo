@@ -49,6 +49,7 @@ const ChatMessage = ({ name, type, apiUrl, query, member }: ChatMessageProps) =>
             group.items.map((message: ChannelMessageWithMemberProfile) => (
               <Fragment key={message.id}>
                 <ChatItem
+                  deleted={message.deleted}
                   currentMember={member}
                   fileUrl={message.fileUrl}
                   timestamp={dateFormat(message.createdAt)}

@@ -29,12 +29,13 @@ interface ChatItemProps {
   currentMember: Member
   edited: boolean
   apiUrl: string
+  deleted: boolean
 }
 
 const formSchema = z.object({
   content: z.string().min(1)
 })
-const ChatItem = ({ currentMember, fileUrl, member, content, timestamp, apiUrl, edited }: ChatItemProps) => {
+const ChatItem = ({ currentMember, fileUrl, member, content, timestamp, apiUrl, edited, deleted }: ChatItemProps) => {
   const [editing, setEditing] = useState(false)
   const { onOpen } = useModal()
   const { t } = useClientTranslation()
@@ -66,10 +67,6 @@ const ChatItem = ({ currentMember, fileUrl, member, content, timestamp, apiUrl, 
     await axios.patch(apiUrl, values)
     // 无需修改，等待socket监听更新事件重新请求
     setEditing(false)
-  }
-
-  const onDelete = () => {
-    // TODO 弹出dialog确认是否删除
   }
 
   const isAdmin = currentMember.role === 'ADMIN'
@@ -111,10 +108,17 @@ const ChatItem = ({ currentMember, fileUrl, member, content, timestamp, apiUrl, 
           {!fileUrl &&
             (!editing ? (
               <div>
-                {content}
-                {edited && <span className="ml-1 text-[10px] text-zinc-300">({t('edited')})</span>}
+                {deleted ? (
+                  <span className="text-sm text-zinc-300">{t('This message has been deleted')}</span>
+                ) : (
+                  <>
+                    {content}
+                    {edited && <span className="ml-1 text-[10px] text-zinc-300">({t('edited')})</span>}
+                  </>
+                )}
               </div>
             ) : (
+              // 编辑消息
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}>
                   <FormField
@@ -135,7 +139,7 @@ const ChatItem = ({ currentMember, fileUrl, member, content, timestamp, apiUrl, 
         </div>
       </div>
       {/* 编辑栏 */}
-      {(isOwner || canDelete) && (
+      {!deleted && (isOwner || canDelete) && (
         <div className="hidden group-hover:flex absolute right-8 top-0 -translate-y-1/4 bg-white dark:bg-zinc-800  p-1 border rounded-md gap-x-2">
           {!fileUrl && isOwner && (
             <ActionTooltip label={t('Edit')}>

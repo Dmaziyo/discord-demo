@@ -33,7 +33,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponseS
       res?.socket?.server?.io.emit(`chat:channel:${message.channelId}:updated`)
       return res.status(200).json(message)
     } else if (req.method === 'DELETE') {
-      const message = await db.channelMessage.delete({
+      const message = await db.channelMessage.update({
         where: {
           id: id as string,
           OR: [
@@ -59,6 +59,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponseS
               }
             }
           ]
+        }
+        ,data:{
+          deleted:true
         }
       })
       res?.socket?.server?.io.emit(`chat:channel:${message.channelId}:updated`)

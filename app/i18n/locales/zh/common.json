@@ -58,5 +58,6 @@
     "edited": "已修改",
     "Cancel":"取消",
     "Confirm":"确定",
-    "This action cannot be undone.":"该行为无法撤回，请谨慎考虑"
+    "This action cannot be undone.":"该行为无法撤回，请谨慎考虑",
+    "This message has been deleted":"该消息已被删除"
 }
