@@ -7,6 +7,7 @@ import { Loader2, ServerCrash } from 'lucide-react'
 import { useClientTranslation } from '@/hooks/use-i18n'
 import ChatItem from '@/components/chat/chat-item'
 import dateFormat from '@/lib/date-format'
+import useSocketChat from '@/hooks/use-socket-chat'
 
 interface ChatMessageProps {
   name: string
@@ -22,9 +23,11 @@ type ChannelMessageWithMemberProfile = ChannelMessage & {
 }
 const ChatMessage = ({ name, type, apiUrl, query, member }: ChatMessageProps) => {
   const { t } = useClientTranslation()
-  const queryKey = `chat:${type}:${query.channelId || query.conversationId}`
-
+  const queryKey = `${type}:${query.channelId || query.conversationId}`
+  const addKey = `${queryKey}:added`
+  const updateKey = `${queryKey}:updated`
   const { data, status, fetchNextPage } = useChatQuery({ apiUrl, query, queryKey })
+  useSocketChat({ queryKey, addKey, updateKey })
   if (status === 'pending') {
     return (
       <div className="flex flex-col gap-1 flex-1 items-center justify-center">

@@ -16,9 +16,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponseS
     if (!profile) {
       return res.status(401).json({ error: 'Unauthorized' })
     }
+    let message = null
     if (req.method === 'PATCH') {
       const { content } = req.body as { content: string }
-      const message = await db.channelMessage.update({
+      message = await db.channelMessage.update({
         where: {
           id: id as string,
           // 只有发送者能更改
@@ -28,12 +29,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponseS
         },
         data: {
           content
+        },
+        include: {
+          member: {
+            include: {
+              Profile: true
+            }
+          }
         }
       })
-      res?.socket?.server?.io.emit(`chat:channel:${message.channelId}:updated`)
-      return res.status(200).json(message)
     } else if (req.method === 'DELETE') {
-      const message = await db.channelMessage.update({
+      message = await db.channelMessage.update({
         where: {
           id: id as string,
           OR: [
@@ -59,14 +65,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponseS
               }
             }
           ]
-        }
-        ,data:{
-          deleted:true
+        },
+        data: {
+          deleted: true
+        },
+        include: {
+          member: {
+            include: {
+              Profile: true
+            }
+          }
         }
       })
-      res?.socket?.server?.io.emit(`chat:channel:${message.channelId}:updated`)
-      return res.status(200).json(message)
     }
+    res?.socket?.server?.io.emit(`channel:${message?.channelId}:updated`,message)
+    return res.status(200).json(message)
   } catch (error) {
     console.log('[ CHANNEL_MESSAGE_ERROR ] >', error)
     res.status(500).json(error)

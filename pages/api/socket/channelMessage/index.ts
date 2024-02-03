@@ -51,22 +51,23 @@ export default async function channelMessageHandler(req: NextApiRequest, res: Ne
         return res.status(400).json({ error: 'Member not found' })
       }
 
-      // 创建消息至channel
-      const channel = await db.channel.update({
-        where: {
-          id: channelId as string
-        },
+      // 创建消息
+      const message = await db.channelMessage.create({
         data: {
-          channelMessages: {
-            create: {
-              memberId: server?.members[0].id as string,
-              content: content as string,
-              fileUrl
+          channelId: channelId as string,
+          memberId: server?.members[0].id as string,
+          content: content as string,
+          fileUrl
+        },
+        include: {
+          member: {
+            include: {
+              Profile: true
             }
           }
         }
       })
-      res.socket.server.io.emit(`channel:${channel.id}:messages`)
+      res.socket.server.io.emit(`channel:${channelId}:added`, message)
 
       res.status(200).json({ message: 'create succeeded' })
     }
