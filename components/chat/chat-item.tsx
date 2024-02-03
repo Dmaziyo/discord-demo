@@ -18,6 +18,7 @@ import { z } from 'zod'
 import { Input } from '@/components/ui/input'
 import axios from 'axios'
 import { useModal } from '@/hooks/use-modal-state'
+import { useParams, useRouter } from 'next/navigation'
 
 interface ChatItemProps {
   member: Member & {
@@ -39,6 +40,8 @@ const ChatItem = ({ currentMember, fileUrl, member, content, timestamp, apiUrl, 
   const [editing, setEditing] = useState(false)
   const { onOpen } = useModal()
   const { t } = useClientTranslation()
+  const params = useParams()
+  const router = useRouter()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -69,6 +72,12 @@ const ChatItem = ({ currentMember, fileUrl, member, content, timestamp, apiUrl, 
     setEditing(false)
   }
 
+  const onMemberClick = () => {
+    if (member.id !== currentMember.id) {
+      router.push(`/servers/${params?.serverId}/conversations/${member.id}`)
+    }
+  }
+
   const isAdmin = currentMember.role === 'ADMIN'
   const isModerator = currentMember.role === 'MODERATOR'
   const isOwner = currentMember.profileId === member.profileId
@@ -76,10 +85,12 @@ const ChatItem = ({ currentMember, fileUrl, member, content, timestamp, apiUrl, 
 
   return (
     <div className="mt-2 group flex gap-x-2 p-4 hover-animation relative">
-      <UserAvatar className="md:w-10 md:h-10 cursor-pointer " src={member.Profile.image}></UserAvatar>
+      <div onClick={onMemberClick} className="flex items-center">
+        <UserAvatar className="md:w-10 md:h-10 cursor-pointer " src={member.Profile.image}></UserAvatar>
+      </div>
       <div className="flex flex-col gap-y-1 flex-1">
         <div className="flex items-center ">
-          <p className="text-sm font-semibold mr-1 hover:underline cursor-pointer">{member.Profile.name}</p>
+          <p onClick={onMemberClick} className="text-sm font-semibold mr-1 hover:underline cursor-pointer">{member.Profile.name}</p>
           <ActionTooltip label={t(member.role.toLowerCase() as LangValues)}>{MEMBER_ICON_MAP[member.role]}</ActionTooltip>
           <span className="text-xs text-zinc-400">{timestamp}</span>
         </div>
@@ -109,7 +120,7 @@ const ChatItem = ({ currentMember, fileUrl, member, content, timestamp, apiUrl, 
             (!editing ? (
               <div>
                 {deleted ? (
-                  <span className="text-sm text-zinc-300">{t('This message has been deleted')}</span>
+                  <span className="italic text-sm text-zinc-300">{t('This message has been deleted')}</span>
                 ) : (
                   <>
                     {content}
