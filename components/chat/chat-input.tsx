@@ -4,12 +4,12 @@ import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { useClientTranslation } from '@/hooks/use-i18n'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Plus, Settings, Smile } from 'lucide-react'
+import { Plus } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import qs from 'query-string'
 import axios from 'axios'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useModal } from '@/hooks/use-modal-state'
 import EmojiPicker from '@/components/chat/emoji-picker'
 
@@ -49,6 +49,9 @@ const ChatInput = ({ name, apiUrl, query, type }: ChatInputProps) => {
       console.log('[ CHAT_INPUT_MESSAGE ] >', error)
     }
   }
+  useEffect(() => {
+    form.setFocus('content')
+  })
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
