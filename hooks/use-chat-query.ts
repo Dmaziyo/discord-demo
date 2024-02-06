@@ -21,7 +21,7 @@ const useChatQuery = ({ apiUrl, query, queryKey }: useChatQueryProps) => {
     const res = await fetch(url)
     return res.json()
   }
-  const { data, status, fetchNextPage } = useInfiniteQuery({
+  const { data, status, fetchNextPage,isFetchingNextPage ,hasNextPage} = useInfiniteQuery({
     queryKey: [queryKey],
     queryFn: async ({ pageParam }) => fetchData(pageParam),
     initialPageParam: undefined,
@@ -30,7 +30,7 @@ const useChatQuery = ({ apiUrl, query, queryKey }: useChatQueryProps) => {
     },
     refetchInterval: isConnected ? false : 2000
   })
-  return { data, status, fetchNextPage }
+  return { data, status, fetchNextPage,isFetchingNextPage,hasNextPage }
 }
 
 export default useChatQuery

@@ -1,7 +1,7 @@
 'use client'
 import ChatWelcome from '@/components/chat/chat-welcome'
 import { ChannelMessage, Member, Profile } from '@prisma/client'
-import { Fragment } from 'react'
+import { Fragment, useRef } from 'react'
 import useChatQuery from '@/hooks/use-chat-query'
 import { Loader2, ServerCrash } from 'lucide-react'
 import { useClientTranslation } from '@/hooks/use-i18n'
@@ -26,7 +26,8 @@ const ChatMessage = ({ name, type, apiUrl, query, member }: ChatMessageProps) =>
   const queryKey = `${type}:${query.channelId || query.conversationId}`
   const addKey = `${queryKey}:added`
   const updateKey = `${queryKey}:updated`
-  const { data, status, fetchNextPage } = useChatQuery({ apiUrl, query, queryKey })
+  const messageRef = useRef<HTMLDivElement | null>(null)
+  const { data, status, fetchNextPage, isFetchingNextPage, hasNextPage } = useChatQuery({ apiUrl, query, queryKey })
   useSocketChat({ queryKey, addKey, updateKey })
   if (status === 'pending') {
     return (
@@ -44,8 +45,19 @@ const ChatMessage = ({ name, type, apiUrl, query, member }: ChatMessageProps) =>
     )
   }
   return (
-    <div className="flex flex-col-reverse flex-1 overflow-y-auto">
-      <ChatWelcome className="order-1 ml-4" name={name} type={type}></ChatWelcome>
+    <div ref={messageRef} className="flex flex-col-reverse flex-1 overflow-y-auto">
+      {hasNextPage && (
+        <div className="flex justify-center  align-center p-3 order-1">
+          {isFetchingNextPage ? (
+            <Loader2 className="w-5 h-5 text-zinc-500 animate-spin" />
+          ) : (
+            <span onClick={() => fetchNextPage()} className="text-sm cursor-pointer hover:underline text-zinc-400">
+              {t('load previous messages')}
+            </span>
+          )}
+        </div>
+      )}
+      {!hasNextPage && <ChatWelcome className="order-1 ml-4" name={name} type={type}></ChatWelcome>}
       {data?.pages.length && (
         <div className="flex flex-col-reverse">
           {data.pages.map(group =>
