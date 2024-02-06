@@ -21,7 +21,7 @@ export async function GET(req: NextRequest) {
     let messages: ChannelMessage[] = []
     if (cursor) {
       messages = await db.channelMessage.findMany({
-        take: PAGE_BATCH,
+        take: PAGE_BATCH + 1,
         skip: 1, // Skip the cursor
         where: {
           channelId
@@ -42,7 +42,7 @@ export async function GET(req: NextRequest) {
       })
     } else {
       messages = await db.channelMessage.findMany({
-        take: PAGE_BATCH,
+        take: PAGE_BATCH + 1,
         where: {
           channelId
         },
@@ -59,7 +59,8 @@ export async function GET(req: NextRequest) {
       })
     }
     let nextCursor = null
-    if (messages.length === PAGE_BATCH) {
+    if (messages.length === PAGE_BATCH + 1) {
+      messages.pop()
       nextCursor = messages[messages.length - 1].id
     }
 
