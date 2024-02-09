@@ -77,7 +77,7 @@ const ChatInput = ({ name, apiUrl, query, type }: ChatInputProps) => {
                     {...field}
                     className="bg-transparent outline-none border-none"
                     autoComplete="off"
-                    placeholder={`${t('Message')} #${name}`}
+                    placeholder={`${t('Message')} ${type==='channel'?'#':''} ${name}`}
                     disabled={loading}
                   />
                   <EmojiPicker

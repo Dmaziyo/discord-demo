@@ -2,7 +2,7 @@
 import { LangValues } from '@/app/i18n/type'
 import { MEMBER_ICON_MAP } from '@/constants/icon'
 import { useClientTranslation } from '@/hooks/use-i18n'
-import { Member, Profile } from '@prisma/client'
+import { Member } from '@prisma/client'
 import { EditIcon, File, Trash } from 'lucide-react'
 
 import UserAvatar from '@/components/user-avator'
@@ -93,7 +93,9 @@ const ChatItem = ({ currentMember, fileUrl, member, content, timestamp, apiUrl, 
           <p onClick={onMemberClick} className="text-sm font-semibold mr-1 hover:underline cursor-pointer">
             {member.Profile.name}
           </p>
-          <ActionTooltip label={t(member.role.toLowerCase() as LangValues)}>{MEMBER_ICON_MAP[member.role]}</ActionTooltip>
+          {type === 'channel' && (
+            <ActionTooltip label={t(member.role.toLowerCase() as LangValues)}>{MEMBER_ICON_MAP[member.role]}</ActionTooltip>
+          )}
           <span className="text-xs text-zinc-400">{timestamp}</span>
         </div>
         <div>

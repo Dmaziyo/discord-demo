@@ -33,7 +33,7 @@ const ServerMember = ({ role, member, server }: ServerMemberProps) => {
   const { t } = useClientTranslation()
 
   const onClick = () => {
-    if (user?.id !== member.profileId) router.push(`/servers/${server.id}/conversations/${member.id}`)
+    if (user?.id !== member.profileId) router.push(`/servers/${server.id}/conversations/${member.profileId}`)
   }
   //  修改member数据
   const onKick = async (memberId: string) => {

@@ -77,7 +77,7 @@ const ChatMessage = ({ name, type, apiUrl, query, member }: ChatMessageProps) =>
                       member={message.member}
                       content={message.content}
                       edited={message.updatedAt !== message.createdAt}
-                      apiUrl={`/api/socket/${type}Message/${message.id}`}
+                      apiUrl={`/api/socket/channelMessage/${message.id}`}
                     ></ChatItem>
                   </Fragment>
                 ))
@@ -91,7 +91,7 @@ const ChatMessage = ({ name, type, apiUrl, query, member }: ChatMessageProps) =>
                       member={{ profileId: message.profile.id, Profile: message.profile } as MemberWithProfile}
                       content={message.content}
                       edited={message.updatedAt !== message.createdAt}
-                      apiUrl={`/api/socket/${type}Message/${message.id}`}
+                      apiUrl={`/api/socket/directMessage/${message.id}`}
                     ></ChatItem>
                   </Fragment>
                 ))
