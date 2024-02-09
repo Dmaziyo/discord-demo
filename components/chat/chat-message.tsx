@@ -88,7 +88,7 @@ const ChatMessage = ({ name, type, apiUrl, query, member }: ChatMessageProps) =>
                       currentMember={member}
                       fileUrl={message.fileUrl}
                       timestamp={dateFormat(message.createdAt)}
-                      member={{ Profile: member.Profile } as MemberWithProfile}
+                      member={{ profileId: message.profile.id, Profile: message.profile } as MemberWithProfile}
                       content={message.content}
                       edited={message.updatedAt !== message.createdAt}
                       apiUrl={`/api/socket/${type}Message/${message.id}`}
