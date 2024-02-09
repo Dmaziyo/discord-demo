@@ -31,6 +31,9 @@ const ChannelIdPage = async ({
     where: {
       serverId: params.serverId,
       profileId: profile.id
+    },
+    include: {
+      Profile: true
     }
   })
   if (!channel || !member) {

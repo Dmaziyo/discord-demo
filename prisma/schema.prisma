@@ -18,9 +18,13 @@ model Profile {
   image String @db.Text
   email String @db.Text
 
-  servers  Server[]
-  members  Member[]
-  channels Channel[]
+  servers        Server[]
+  members        Member[]
+  channels       Channel[]
+  directMessages DirectMessage[]
+
+  conversationInitiated Conversation[] @relation("initiator")
+  conversationReceived  Conversation[] @relation("receiver")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -88,10 +92,6 @@ model Member {
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
   channelMessages ChannelMessage[]
-  directMessages  DirectMessage[]
-
-  conversationInitiated Conversation[] @relation("initiator")
-  conversationReceived  Conversation[] @relation("receiver")
 
   @@index([profileId])
   @@index([serverId])
@@ -121,8 +121,8 @@ model DirectMessage {
 
   deleted Boolean @default(false)
 
-  memberId String
-  member   Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  profileId String
+  profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
   conversationId String
   conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
@@ -139,10 +139,10 @@ model Conversation {
   directMessages DirectMessage[]
 
   initiatorId String
-  initiator   Member @relation("initiator", fields: [initiatorId], references: [id], onDelete: Cascade)
+  initiator   Profile @relation("initiator", fields: [initiatorId], references: [id], onDelete: Cascade)
 
   receiverId String
-  receiver   Member @relation("receiver", fields: [receiverId], references: [id], onDelete: Cascade)
+  receiver   Profile @relation("receiver", fields: [receiverId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

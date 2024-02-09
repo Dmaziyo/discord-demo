@@ -1,10 +1,10 @@
 import db from '@/lib/db'
 
-export async function findOrCreateConversation(memberOneId: string, memberTwoId: string) {
+export async function findOrCreateConversation(profileOneId: string, profileTwoId: string) {
   try {
-    let conversation = await findConversation(memberOneId, memberTwoId)
+    let conversation = await findConversation(profileOneId, profileTwoId)
     if (!conversation) {
-      conversation = await createConversation(memberOneId, memberTwoId)
+      conversation = await createConversation(profileOneId, profileTwoId)
     }
     return conversation
   } catch (error) {
@@ -12,34 +12,26 @@ export async function findOrCreateConversation(memberOneId: string, memberTwoId:
   }
 }
 
-async function findConversation(memberOneId: string, memberTwoId: string) {
-    const conversation = await db.conversation.findFirst({
-      where: {
-        OR: [
-          {
-            initiatorId: memberOneId,
-            receiverId: memberTwoId
-          },
-          {
-            initiatorId: memberTwoId,
-            receiverId: memberOneId
-          }
-        ]
-      },
-      include: {
-        initiator: {
-          include: {
-            Profile: true
-          }
+async function findConversation(profileOneId: string, profileTwoId: string) {
+  const conversation = await db.conversation.findFirst({
+    where: {
+      OR: [
+        {
+          initiatorId: profileOneId,
+          receiverId: profileTwoId
         },
-        receiver: {
-          include: {
-            Profile: true
-          }
+        {
+          initiatorId: profileTwoId,
+          receiverId: profileOneId
         }
-      }
-    })
-    return conversation
+      ]
+    },
+    include: {
+      initiator: true,
+      receiver: true
+    }
+  })
+  return conversation
 }
 
 async function createConversation(initiatorId: string, receiverId: string) {
@@ -50,16 +42,8 @@ async function createConversation(initiatorId: string, receiverId: string) {
         receiverId
       },
       include: {
-        initiator: {
-          include: {
-            Profile: true
-          }
-        },
-        receiver: {
-          include: {
-            Profile: true
-          }
-        }
+        initiator: true,
+        receiver: true
       }
     })
     return conversation

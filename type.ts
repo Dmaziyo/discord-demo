@@ -15,3 +15,7 @@ export type NextApiResponseServerIO = NextApiResponse & {
     }
   }
 }
+
+export type MemberWithProfile = Member & {
+  Profile: Profile
+}

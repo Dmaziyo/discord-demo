@@ -1,6 +1,6 @@
 'use client'
 import ChatWelcome from '@/components/chat/chat-welcome'
-import { ChannelMessage, Member, Profile } from '@prisma/client'
+import { ChannelMessage, DirectMessage, Member, Profile } from '@prisma/client'
 import { Fragment, useRef } from 'react'
 import useChatQuery from '@/hooks/use-chat-query'
 import { Loader2, ServerCrash } from 'lucide-react'
@@ -9,18 +9,21 @@ import ChatItem from '@/components/chat/chat-item'
 import dateFormat from '@/lib/date-format'
 import useSocketChat from '@/hooks/use-socket-chat'
 import useScrollChat from '@/hooks/use-scroll-chat'
+import { MemberWithProfile } from '@/type'
 
 interface ChatMessageProps {
   name: string
   type: 'channel' | 'conversation'
   apiUrl: string
   query: Partial<Record<'conversationId' | 'channelId', string>>
-  member: Member
+  member: MemberWithProfile
 }
 type ChannelMessageWithMemberProfile = ChannelMessage & {
-  member: Member & {
-    Profile: Profile
-  }
+  member: MemberWithProfile
+}
+
+type directMessageProfile = DirectMessage & {
+  profile: Profile
 }
 const ChatMessage = ({ name, type, apiUrl, query, member }: ChatMessageProps) => {
   const { t } = useClientTranslation()
@@ -63,20 +66,35 @@ const ChatMessage = ({ name, type, apiUrl, query, member }: ChatMessageProps) =>
       {data?.pages.length && (
         <div className="flex flex-col-reverse">
           {data.pages.map(group =>
-            group.items.map((message: ChannelMessageWithMemberProfile) => (
-              <Fragment key={message.id}>
-                <ChatItem
-                  deleted={message.deleted}
-                  currentMember={member}
-                  fileUrl={message.fileUrl}
-                  timestamp={dateFormat(message.createdAt)}
-                  member={message.member}
-                  content={message.content}
-                  edited={message.updatedAt !== message.createdAt}
-                  apiUrl={`/api/socket/${type}Message/${message.id}`}
-                ></ChatItem>
-              </Fragment>
-            ))
+            type === 'channel'
+              ? group.items.map((message: ChannelMessageWithMemberProfile) => (
+                  <Fragment key={message.id}>
+                    <ChatItem
+                      deleted={message.deleted}
+                      currentMember={member}
+                      fileUrl={message.fileUrl}
+                      timestamp={dateFormat(message.createdAt)}
+                      member={message.member}
+                      content={message.content}
+                      edited={message.updatedAt !== message.createdAt}
+                      apiUrl={`/api/socket/${type}Message/${message.id}`}
+                    ></ChatItem>
+                  </Fragment>
+                ))
+              : group.items.map((message: directMessageProfile) => (
+                  <Fragment key={message.id}>
+                    <ChatItem
+                      deleted={message.deleted}
+                      currentMember={member}
+                      fileUrl={message.fileUrl}
+                      timestamp={dateFormat(message.createdAt)}
+                      member={{ Profile: member.Profile } as MemberWithProfile}
+                      content={message.content}
+                      edited={message.updatedAt !== message.createdAt}
+                      apiUrl={`/api/socket/${type}Message/${message.id}`}
+                    ></ChatItem>
+                  </Fragment>
+                ))
           )}
         </div>
       )}

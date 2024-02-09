@@ -19,11 +19,11 @@ import { Input } from '@/components/ui/input'
 import axios from 'axios'
 import { useModal } from '@/hooks/use-modal-state'
 import { useParams, useRouter } from 'next/navigation'
+import { MemberWithProfile } from '@/type'
 
 interface ChatItemProps {
-  member: Member & {
-    Profile: Profile
-  }
+  type?: 'conversation' | 'channel'
+  member: MemberWithProfile
   content: string
   timestamp: string
   fileUrl: string | null
@@ -36,7 +36,7 @@ interface ChatItemProps {
 const formSchema = z.object({
   content: z.string().min(1)
 })
-const ChatItem = ({ currentMember, fileUrl, member, content, timestamp, apiUrl, edited, deleted }: ChatItemProps) => {
+const ChatItem = ({ currentMember, fileUrl, member, content, timestamp, apiUrl, edited, deleted, type }: ChatItemProps) => {
   const [editing, setEditing] = useState(false)
   const { onOpen } = useModal()
   const { t } = useClientTranslation()
@@ -73,8 +73,8 @@ const ChatItem = ({ currentMember, fileUrl, member, content, timestamp, apiUrl, 
   }
 
   const onMemberClick = () => {
-    if (member.id !== currentMember.id) {
-      router.push(`/servers/${params?.serverId}/conversations/${member.id}`)
+    if (member.profileId !== currentMember.profileId && type !== 'conversation') {
+      router.push(`/servers/${params?.serverId}/conversations/${member.profileId}`)
     }
   }
 
@@ -90,7 +90,9 @@ const ChatItem = ({ currentMember, fileUrl, member, content, timestamp, apiUrl, 
       </div>
       <div className="flex flex-col gap-y-1 flex-1">
         <div className="flex items-center ">
-          <p onClick={onMemberClick} className="text-sm font-semibold mr-1 hover:underline cursor-pointer">{member.Profile.name}</p>
+          <p onClick={onMemberClick} className="text-sm font-semibold mr-1 hover:underline cursor-pointer">
+            {member.Profile.name}
+          </p>
           <ActionTooltip label={t(member.role.toLowerCase() as LangValues)}>{MEMBER_ICON_MAP[member.role]}</ActionTooltip>
           <span className="text-xs text-zinc-400">{timestamp}</span>
         </div>
