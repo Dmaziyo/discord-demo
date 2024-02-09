@@ -56,9 +56,9 @@ const InitialModal = () => {
   }
   return (
     <Dialog open>
-      <DialogContent className="bg-white text-black p-0">
+      <DialogContent className="bg-white text-primary p-0 dark:bg-[#1E1F22]   ">
         <DialogHeader className="p-8">
-          <DialogTitle className="text-black text-center text-3xl font-bold">{t('Customize your server')}</DialogTitle>
+          <DialogTitle className="text-primary text-center text-3xl font-bold">{t('Customize your server')}</DialogTitle>
           <DialogDescription className="text-center text-zinc-500">
             {t('Give me your server a personality with a name and an image.You can always change it later')}
           </DialogDescription>
@@ -90,14 +90,14 @@ const InitialModal = () => {
                   <FormItem className="px-5">
                     <FormLabel className="uppercase text-zinc-500 text-sm font-bold">{t('server name')}</FormLabel>
                     <FormControl>
-                      <Input className="bg-zinc-300/50 text-black without-ring" placeholder={t('Enter server name')} {...field} />
+                      <Input className="bg-zinc-300/50 dark:bg-zinc-700  without-ring" placeholder={t('Enter server name')} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )
               }}
             />
-            <DialogFooter className="bg-gray-100 p-5">
+            <DialogFooter className="bg-gray-100 p-5 dark:bg-[#313338]/10">
               <Button className="text-white bg-indigo-500 hover:bg-indigo-500/90">{t('Create')}</Button>
             </DialogFooter>
           </form>

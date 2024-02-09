@@ -31,7 +31,7 @@ const InvitePage = ({ params }: { params: { inviteCode: string } }) => {
 
   return (
     <Dialog open>
-      <DialogContent className="bg-white p-0">
+      <DialogContent className="bg-white text-primary p-0 dark:bg-[#1E1F22]  ">
         <DialogHeader className="p-8">
           <DialogTitle className="text-center text-3xl font-bold">Invitation</DialogTitle>
           {!answerMsg ? (
