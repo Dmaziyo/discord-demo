@@ -1,3 +1,4 @@
+import ChatVideoButton from '@/components/chat/chat-video-button'
 import MobileAction from '@/components/mobile-action'
 import SocketIndicator from '@/components/socket-indicator'
 import { Badge } from '@/components/ui/badge'
@@ -22,7 +23,11 @@ const ChatHeader = ({ serverId, type, name, imageUrl, locale }: ChatHeaderProps)
         <UserAvatar className="md:w-9 md:h-9 mr-3" src={imageUrl} />
       )}
       {name}
-      <SocketIndicator className='ml-auto'></SocketIndicator>
+     <div className="ml-auto flex items-center">
+
+      <ChatVideoButton></ChatVideoButton>
+      <SocketIndicator ></SocketIndicator>
+      </div> 
     </div>
   )
 }

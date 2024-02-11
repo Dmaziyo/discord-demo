@@ -1,19 +1,22 @@
 import ChatHeader from '@/components/chat/chat-header'
 import ChatInput from '@/components/chat/chat-input'
 import ChatMessage from '@/components/chat/chat-message'
+import ChatVideo from '@/components/chat/chat-video'
 import { findOrCreateConversation } from '@/lib/db/conversation'
 import { currentProfile } from '@/lib/db/profile'
 import { MemberWithProfile } from '@/type'
 import { redirect } from 'next/navigation'
 
 const ConversationPage = async ({
-  params
+  params,
+  searchParams
 }: {
   params: {
     locale: string
     serverId: string
     profileId: string
   }
+  searchParams: { video: undefined | boolean }
 }) => {
   const profile = await currentProfile()
   // 不能自己跟自己聊天
@@ -37,19 +40,25 @@ const ConversationPage = async ({
         type="member"
         imageUrl={targetProfile.image}
       ></ChatHeader>
-      <ChatMessage
-        member={{ id: '', role: 'GUEST', profileId: profile.id, Profile: profile } as MemberWithProfile}
-        apiUrl="/api/directMessage"
-        query={{ conversationId: conversation.id }}
-        type="conversation"
-        name={targetProfile.name}
-      ></ChatMessage>
-      <ChatInput
-        apiUrl="/api/socket/directMessage"
-        query={{ conversationId: conversation.id }}
-        name={targetProfile.name}
-        type="member"
-      ></ChatInput>
+      {searchParams.video ? (
+        <ChatVideo chatId={conversation.id} video={true} audio={true}></ChatVideo>
+      ) : (
+        <>
+          <ChatMessage
+            member={{ id: '', role: 'GUEST', profileId: profile.id, Profile: profile } as MemberWithProfile}
+            apiUrl="/api/directMessage"
+            query={{ conversationId: conversation.id }}
+            type="conversation"
+            name={targetProfile.name}
+          ></ChatMessage>
+          <ChatInput
+            apiUrl="/api/socket/directMessage"
+            query={{ conversationId: conversation.id }}
+            name={targetProfile.name}
+            type="member"
+          ></ChatInput>
+        </>
+      )}
     </div>
   )
 }

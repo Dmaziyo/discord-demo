@@ -60,5 +60,7 @@
     "Confirm":"确定",
     "This action cannot be undone.":"该行为无法撤回，请谨慎考虑",
     "This message has been deleted":"该消息已被删除",
-    "load previous messages":"加载更多消息"
+    "load previous messages":"加载更多消息",
+    "Start Video":"视频通话",
+    "End Video":"结束通话"
 }
