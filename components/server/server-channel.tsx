@@ -34,7 +34,7 @@ const ServerChannel = ({ role, icon, channel, server }: ServerChannelProps) => {
       )}
     >
       {icon}
-      <span className={cn('text-zinc-500', params.channelId === channel.id && 'text-black dark:text-zinc-200')}>{channel.name}</span>
+      <span className={cn('text-zinc-500', params?.channelId === channel.id && 'text-black dark:text-zinc-200')}>{channel.name}</span>
       {role !== 'GUEST' &&
         (channel.name === 'general' ? (
           <Lock className="hidden group-hover:block ml-auto h-4 w-4 text-zinc-400" />

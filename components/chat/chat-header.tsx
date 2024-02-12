@@ -23,11 +23,10 @@ const ChatHeader = ({ serverId, type, name, imageUrl, locale }: ChatHeaderProps)
         <UserAvatar className="md:w-9 md:h-9 mr-3" src={imageUrl} />
       )}
       {name}
-     <div className="ml-auto flex items-center">
-
-      <ChatVideoButton></ChatVideoButton>
-      <SocketIndicator ></SocketIndicator>
-      </div> 
+      <div className="ml-auto flex items-center">
+        {type === 'member' && <ChatVideoButton></ChatVideoButton>}
+        <SocketIndicator></SocketIndicator>
+      </div>
     </div>
   )
 }

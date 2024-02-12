@@ -24,13 +24,13 @@ const NavigationItem = ({ name, imageUrl, serverId }: NavigationItemProps) => {
         <div
           className={cn(
             'absolute left-0  w-[4px] bg-primary rounded-lg',
-            params.serverId === serverId ? 'h-[30px]' : 'h-[8px] group-hover:h-[20px] transition-all'
+            params?.serverId === serverId ? 'h-[30px]' : 'h-[8px] group-hover:h-[20px] transition-all'
           )}
         ></div>
         <div
           className={cn(
             'relative overflow-hidden h-[48px] w-[48px]  md:h-[40px] md:w-[40px] rounded-[24px] mx-3',
-            params.serverId === serverId ? 'rounded-[16px]' : 'rounded-[24px] group-hover:rounded-[16px] transition-all'
+            params?.serverId === serverId ? 'rounded-[16px]' : 'rounded-[24px] group-hover:rounded-[16px] transition-all'
           )}
         >
           <Image sizes="fill" fill src={imageUrl} alt={name}></Image>

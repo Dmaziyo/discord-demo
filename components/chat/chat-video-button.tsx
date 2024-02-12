@@ -9,7 +9,7 @@ import qs from 'query-string'
 const ChatVideoButton = () => {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const videoState = searchParams.get('video')
+  const videoState = searchParams?.get('video')
   const pathname = usePathname()
   // 通过router.query获取URL查询参数
   const { t } = useClientTranslation()
@@ -17,7 +17,7 @@ const ChatVideoButton = () => {
 
   const url = qs.stringifyUrl(
     {
-      url: pathname,
+      url: pathname || '',
       query: {
         video: videoState ? undefined : true
       }
